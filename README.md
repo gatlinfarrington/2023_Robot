@@ -23,4 +23,6 @@ FRC Team 1165 Robot code, 2023 Charged Up Competition
     4. Score, cross line pickup new piece (left and right starting spots)
     5. score, cross line, pickup, drive back (left and right starting spots)
     6. score, cross, pickup, drive back, score again. (left and right starting spots)
-    
+
+## State Machine Example:
+https://github.com/Sabercat-Robotics-4146-FRC/Robot_Code-2019/blob/master/src/main/java/frc/robot/TeleopControls.java
