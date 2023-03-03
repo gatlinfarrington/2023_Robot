@@ -16,13 +16,36 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-  public int STARTING_COUNT = 0;
+  public static int STARTING_COUNT = 0;
 
-  public int FRONT_TOP_COUNT = 0;
-  public int FRONT_MIDDLE_COUNT = 0;
-  public int FRONT_BOTTOM_COUNT = 0;
+  public static final int FRONT_TOP_COUNT = 0;
+  public static final int FRONT_MIDDLE_COUNT = 0;
+  public static final int FRONT_BOTTOM_COUNT = 0;
+  //arm rotation encoder counts
+  public static final int BACK_BOTTOM_COUNT = 0;
+  public static final int BACK_MIDDLE_COUNT = 0;
+  public static final int BACK_TOP_COUNT = 0;
+  //telescoping arm encoder counts
+  public static final int ARM_EXTENDED_COUNT = 0;
+  public static final int ARM_UNEXTENDED_COUNT = 0;
 
-  public int BACK_BOTTOM_COUNT = 0;
-  public int BACK_MIDDLE_COUNT = 0;
-  public int BACK_TOP_COUNT = 0;
+  //intake speed counts
+  public static final int INTAKE_SPEED = 0;
+  public static final int OUTTAKE_SPEED = 0;
+
+
+  //MOTOR PORTS
+  //DRIVE_TRAIN
+  public static final int  DRIVE_TRAIN_RIGHT_1 = 1;
+  public static final int DRIVE_TRAIN_RIGHT_2 = 2;
+  public static final int DRIVE_TRAIN_LEFT_1 = 3;
+  public static final int DRIVE_TRAIN_LEFT_2 = 4;
+  //ARM
+  public static final int ARM_MOTOR_PORT = 8;
+  public static final int ARM_MOTOR_SLAVE_PORT = 9;
+  public static final int ARM_EXTEND_PORT = 7;
+  //INTAKE
+  public static final int INTAKE_PORT_1 = 5;
+  public static final int INTAKE_PORT_2 = 6;
+
 }

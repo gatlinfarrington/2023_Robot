@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -83,6 +86,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {}
 
+  
+  TalonFX testArm = new TalonFX(10);
+  public double testSpeed = 0.5;
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
@@ -91,7 +97,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    testArm.set(ControlMode.PercentOutput, testSpeed);
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override

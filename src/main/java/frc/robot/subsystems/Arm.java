@@ -4,9 +4,15 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import src.main.java.frc.robot.Constants;
+import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
   public enum ArmPosition{
@@ -20,12 +26,16 @@ public class Arm extends SubsystemBase {
   }
   
   ArmPosition currentPosition = ArmPosition.STARTING;
-
+  ArmPosition lastPosition;
+  //motor declarations
+  TalonFX ArmMotor = new TalonFX(Constants.ARM_MOTOR_PORT);
+  TalonFX ArmMotor_slave = new TalonFX(Constants.ARM_MOTOR_SLAVE_PORT);
+  CANSparkMax ExtendMotor = new CANSparkMax(Constants.ARM_EXTEND_PORT, MotorType.kBrushless);
 
 
   /** Creates a new ExampleSubsystem. */
   public Arm() {
-    
+    ArmMotor_slave.follow(ArmMotor);
   }
 
   /**
@@ -65,24 +75,51 @@ public class Arm extends SubsystemBase {
     switch(currentPosition) {
       case STARTING: 
         setArmPosition(Constants.STARTING_COUNT);
+        lastPosition = ArmPosition.STARTING;
         break;
       case FRONT_TOP:
+        if(lastPosition == ArmPosition.BACK_TOP){
+          retractArm();
+        }
         setArmPosition(Constants.FRONT_TOP_COUNT);
+        extendArm();
+        lastPosition = ArmPosition.FRONT_TOP;
         break;
       case FRONT_MIDDLE:
+        if(lastPosition == ArmPosition.BACK_TOP || lastPosition == ArmPosition.FRONT_TOP){
+          retractArm();
+        }
         setArmPosition(Constants.FRONT_MIDDLE_COUNT);
+        lastPosition = ArmPosition.FRONT_MIDDLE;
         break;
       case FRONT_BOTTOM:
+        if(lastPosition == ArmPosition.BACK_TOP || lastPosition == ArmPosition.FRONT_TOP){
+          retractArm();
+        }
         setArmPosition(Constants.FRONT_BOTTOM_COUNT);
+        lastPosition = ArmPosition.FRONT_BOTTOM;
         break;
       case BACK_TOP:
+        if(lastPosition == ArmPosition.FRONT_TOP){
+          retractArm();
+        }
         setArmPosition(Constants.BACK_TOP_COUNT);
+        extendArm();
+        lastPosition = ArmPosition.BACK_TOP;
         break;
       case BACK_MIDDLE:
+        if(lastPosition == ArmPosition.BACK_TOP || lastPosition == ArmPosition.FRONT_TOP){
+          retractArm();
+        }
         setArmPosition(Constants.BACK_MIDDLE_COUNT);
+        lastPosition = ArmPosition.BACK_MIDDLE;
         break;
       case BACK_BOTTOM:
+        if(lastPosition == ArmPosition.BACK_TOP || lastPosition == ArmPosition.FRONT_TOP){
+          retractArm();
+        }
         setArmPosition(Constants.BACK_BOTTOM_COUNT);
+        lastPosition = ArmPosition.BACK_BOTTOM;
         break;
 
 
@@ -90,5 +127,14 @@ public class Arm extends SubsystemBase {
   }
   public void setArmPosition(double position) {
     //DO NOTHING
+    ArmMotor.set(TalonFXControlMode.Position, position);
+  }
+  public void extendArm(){
+    //extend the arm
+    // ExtendMotor.
+  }
+  public void retractArm(){
+    //retract the arm
+    //motor.set(position, controlMode.position)
   }
 }
