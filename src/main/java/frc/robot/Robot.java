@@ -6,15 +6,15 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.EncoderConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -64,12 +64,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
   }
 
   /** This function is called periodically during autonomous. */
@@ -89,25 +89,29 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  }
  
 
 //Use for Intake Motors Spark Max ID 5 and 6
   // CANSparkMax testArm = new CANSparkMax(5, MotorType.kBrushless);
   // CANSparkMax testArm2 = new CANSparkMax(6, MotorType.kBrushless);
   //Use for Arm 
-  TalonFX testArm = new TalonFX(Constants.ARM_MOTOR_PORT);
-
-  XboxController xbController = new XboxController(0);
-  //Speed for Anything
-  public double testSpeed = 1;
+  // TalonFX testArm = new TalonFX(10);
+  // Servo s = new Servo(1);
+  // XboxController xbController = new XboxController(0);
+  // //Speed for Anything
+  // public double testSpeed = 1;
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    testArm.setSelectedSensorPosition(0);
+    // testArm.setSelectedSensorPosition(0);
   }
 
+  TalonFX Arm = new TalonFX(10);
+  // DigitalInput lSwitch = new DigitalInput(0);
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
@@ -116,10 +120,22 @@ public class Robot extends TimedRobot {
     // testArm2.set(testSpeed);
     //Use for TalonFX motor (ARM)
     //testArm.set(ControlMode.PercentOutput, testSpeed);
-    if(xbController.getRawButtonPressed(1)){
-      testArm.setSelectedSensorPosition(0);
+    // if(xbController.getRawButtonPressed(1)){
+    //   testArm.setSelectedSensorPosition(0);
+    //   s.setAngle(0);
+    // }else if(xbController.getRawButtonPressed(2)){
+    //   s.setAngle(180);
+    // }
+    // System.out.println(testArm.getSelectedSensorPosition());
+      // System.out.println("Switch: " + lSwitch.get());
+    if(RobotContainer.driverController.getRightBumper()){
+      Arm.set(ControlMode.Position, EncoderConstants.FRONT_MIDDLE_COUNT);
+    }else if(RobotContainer.driverController.getLeftBumper()){
+      Arm.set(ControlMode.Position, EncoderConstants.BACK_MIDDLE_COUNT);
+    }else{
+      Arm.set(ControlMode.PercentOutput, 0);
     }
-    System.out.println(testArm.getSelectedSensorPosition());
+
   }
 
   /** This function is called once when the robot is first started up. */
