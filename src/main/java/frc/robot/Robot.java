@@ -6,8 +6,13 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -85,20 +90,36 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {}
+ 
 
-  
-  TalonFX testArm = new TalonFX(10);
-  public double testSpeed = 0.5;
+//Use for Intake Motors Spark Max ID 5 and 6
+  // CANSparkMax testArm = new CANSparkMax(5, MotorType.kBrushless);
+  // CANSparkMax testArm2 = new CANSparkMax(6, MotorType.kBrushless);
+  //Use for Arm 
+  TalonFX testArm = new TalonFX(Constants.ARM_MOTOR_PORT);
+
+  XboxController xbController = new XboxController(0);
+  //Speed for Anything
+  public double testSpeed = 1;
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    testArm.setSelectedSensorPosition(0);
   }
 
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    testArm.set(ControlMode.PercentOutput, testSpeed);
+    //Use for CANSparkMax (Intake Motors)
+    // testArm.set(-testSpeed);//OUTTAKING
+    // testArm2.set(testSpeed);
+    //Use for TalonFX motor (ARM)
+    //testArm.set(ControlMode.PercentOutput, testSpeed);
+    if(xbController.getRawButtonPressed(1)){
+      testArm.setSelectedSensorPosition(0);
+    }
+    System.out.println(testArm.getSelectedSensorPosition());
   }
 
   /** This function is called once when the robot is first started up. */

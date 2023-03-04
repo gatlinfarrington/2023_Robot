@@ -41,8 +41,8 @@ public final class Constants {
   public static final int DRIVE_TRAIN_LEFT_1 = 3;
   public static final int DRIVE_TRAIN_LEFT_2 = 4;
   //ARM
-  public static final int ARM_MOTOR_PORT = 8;
-  public static final int ARM_MOTOR_SLAVE_PORT = 9;
+  public static final int ARM_MOTOR_PORT = 10;
+  public static final int ARM_MOTOR_SLAVE_PORT = 9;//This motor is not on the robot right now.
   public static final int ARM_EXTEND_PORT = 7;
   //INTAKE
   public static final int INTAKE_PORT_1 = 5;
