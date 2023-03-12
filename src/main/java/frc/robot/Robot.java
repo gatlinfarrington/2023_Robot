@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import javax.swing.plaf.synth.SynthStyle;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -43,6 +46,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    RobotContainer.m_Arm.resetEncoder();
   }
 
   /**
@@ -66,7 +70,9 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    RobotContainer.m_Arm.resetEncoder();
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -92,79 +98,28 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+    System.out.println(RobotContainer.m_Arm.getEncoderPosition());
   }
- 
+  
 
-//Use for Intake Motors Spark Max ID 5 and 6
-  // CANSparkMax testArm = new CANSparkMax(5, MotorType.kBrushless);
-  // CANSparkMax testArm2 = new CANSparkMax(6, MotorType.kBrushless);
-  //Use for Arm 
-  // TalonFX testArm = new TalonFX(10);
-  // Servo s = new Servo(1);
-  // XboxController xbController = new XboxController(0);
-  // //Speed for Anything
-  // public double testSpeed = 1;
-
-  private PIDController pidController;
-    double kP = 0.1;
-    double kI = 0.0;
-    double kD = 0.0;
-    double kF = 0.0;
-    int iZone = 0;
   @Override
-  public void testInit() {
+  public void testInit(){
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     // testArm.setSelectedSensorPosition(0);
-    pidController = new PIDController(0.1, 0, 0);
-    Arm.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-    Arm.setSelectedSensorPosition(0);
-
-        // Set up the PID controller
-    
-    Arm.config_kP(0, kP, 0);
-    Arm.config_kI(0, kI, 0);
-    Arm.config_kD(0, kD, 0);
-    Arm.config_kF(0, kF, 0);
-    Arm.config_IntegralZone(0, iZone, 0);
+    RobotContainer.m_intake.resetEncoder();
   }
 
-  TalonFX Arm = new TalonFX(10);
-  XboxController tController = new XboxController(1);
-  // DigitalInput lSwitch = new DigitalInput(0);
-  /** This function is called periodically during test mode. */
+ 
   @Override
   public void testPeriodic() {
-    
-    
-    double setpoint = EncoderConstants.FRONT_MIDDLE_COUNT;
-    // double position = Arm.getSelectedSensorPosition();
-    // double output = pidController.calculate(position, setpoint);
-    if(tController.getLeftTriggerAxis() > 0.6){
-      double position = Arm.getSelectedSensorPosition(0);
-
-      // Calculate the error and output of the PID controller
-      double error = setpoint - position;
-      double output = kP * error + kI * Arm.getIntegralAccumulator() + kD * Arm.getActiveTrajectoryVelocity() + kF * setpoint;
-
-      // Set the output of the TalonFX motor controller
-      Arm.set(ControlMode.PercentOutput, output);
-      System.out.println("MOVING ARM");
-    }else{
-      Arm.set(ControlMode.PercentOutput, 0);
-    }
-    // if(tController.getRightBumper()){
-    //   Arm.set(ControlMode.PercentOutput, 0);
-    // }
-    // System.out.println("Output: " + output + " \n Current Encoder Count: " + Arm.getSelectedSensorPosition());
-      // Get the current position
-      
+    System.out.println(RobotContainer.m_intake.getEncoderCount());
   }
 
   /** This function is called once when the robot is first started up. */

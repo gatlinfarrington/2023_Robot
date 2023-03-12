@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -19,7 +21,7 @@ public class Intake extends SubsystemBase {
   CANSparkMax intake1 = new CANSparkMax(motorPortConstants.INTAKE_PORT_1, MotorType.kBrushless);
   CANSparkMax intake2 = new CANSparkMax(motorPortConstants.INTAKE_PORT_2, MotorType.kBrushless);
   DigitalInput intakeLimitSwitch = new DigitalInput(0);
-
+  RelativeEncoder intakeEncoder = intake1.getEncoder();
   public Intake() {
     
   }
@@ -41,6 +43,23 @@ public class Intake extends SubsystemBase {
   public void stop(){
     intake1.set(0);
     intake2.set(0);
+  }
+
+  public void dispense(double speed, double rotations){
+    System.out.println("DISPENSE!!!!");
+    intakeEncoder.setPosition(0);
+    while(intakeEncoder.getPosition() > rotations*-8){
+      intake1.set(-1*speed);
+      intake2.set(speed);
+    }
+  }
+
+  public double getEncoderCount(){
+    return intakeEncoder.getPosition();
+  }
+
+  public void resetEncoder(){
+    intakeEncoder.setPosition(0);
   }
 
 

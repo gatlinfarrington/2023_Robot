@@ -4,18 +4,26 @@
 
 package frc.robot;
 
+import frc.robot.Constants.EncoderConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.subsystems.Arm;
 // import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+
+import java.security.spec.EncodedKeySpec;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -28,7 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final static Drivetrain m_Drivetrain = new Drivetrain();
-  // public final static Arm m_Arm = new Arm();
+  public final static Arm m_Arm = new Arm();
   public static Intake m_intake = new Intake();
   // Replace with CommandPS4Controller or CommandJoystick if needed
    public static  XboxController driverController = new XboxController(OperatorConstants.kDriverControllerPort);
@@ -52,6 +60,7 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
+
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // new Trigger(m_exampleSubsystem::exampleCondition)
@@ -59,7 +68,16 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    new JoystickButton(driverController, 2).onTrue(m_Arm.setPosition(1));
+    new JoystickButton(driverController, 4).onTrue(m_Arm.setPosition(2));
+    new JoystickButton(driverController, 3).onTrue(m_Arm.flip());
+    // new POVButton(driverController, ).onTrue(m_Arm.setPosition(1));
+    // new Trigger(driverController.povUp(null)).onTrue(m_Arm.setPosition(2));
+    // new Trigger(driverController.povLeft(null)).onTrue(m_Arm.flip());
+
+    // driverController.povLeft(null).onTrue(m_Arm.setPosition(1));
+    // driverController.povLeft(null).onTrue(m_Arm.setPosition(1));
   }
 
   /**

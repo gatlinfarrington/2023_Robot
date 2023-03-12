@@ -20,13 +20,13 @@ public final class Constants {
   public static class EncoderConstants{
     public static int STARTING_COUNT = 0;
 
-    public static final int FRONT_TOP_COUNT = 0;
+    public static final int FRONT_TOP_COUNT = 9500;
     public static final int FRONT_MIDDLE_COUNT = 12773;
     public static final int FRONT_BOTTOM_COUNT = 25859;
     //arm rotation encoder counts
     public static final int BACK_BOTTOM_COUNT = -25062;
     public static final int BACK_MIDDLE_COUNT = -13208;
-    public static final int BACK_TOP_COUNT = 0;
+    public static final int BACK_TOP_COUNT = -9500;
     //telescoping arm encoder counts
     public static final int ARM_EXTENDED_COUNT = 0;
     public static final int ARM_UNEXTENDED_COUNT = 0;
