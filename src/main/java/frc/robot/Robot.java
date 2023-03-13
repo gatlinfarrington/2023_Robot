@@ -67,11 +67,13 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    RobotContainer.m_Arm.zeroEncoder();
+  }
 
   @Override
   public void disabledPeriodic() {
-    RobotContainer.m_Arm.resetEncoder();
+    RobotContainer.m_Arm.zeroEncoder();
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -79,10 +81,11 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
+    // // schedule the autonomous command (example)
     // if (m_autonomousCommand != null) {
     //   m_autonomousCommand.schedule();
     // }
+    RobotContainer.m_Drivetrain.initializeEncoders();
   }
 
   /** This function is called periodically during autonomous. */
@@ -98,6 +101,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    RobotContainer.m_Drivetrain.initializeEncoders();
+    RobotContainer.m_Drivetrain.setCoastMode();
     
   }
 
@@ -114,12 +119,14 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
     // testArm.setSelectedSensorPosition(0);
     RobotContainer.m_intake.resetEncoder();
+
   }
 
  
   @Override
   public void testPeriodic() {
-    System.out.println(RobotContainer.m_intake.getEncoderCount());
+    // RobotContainer.m_Drivetrain.printVals();
+    System.out.println("Limelgiht angle " + RobotContainer.m_Arm.getLimelightAngle());
   }
 
   /** This function is called once when the robot is first started up. */

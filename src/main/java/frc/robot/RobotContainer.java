@@ -8,13 +8,16 @@ import frc.robot.Constants.EncoderConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.DriveDist;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.TurnToTarget;
 import frc.robot.subsystems.Arm;
 // import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Vision;
 
 import java.security.spec.EncodedKeySpec;
 
@@ -38,8 +41,10 @@ public class RobotContainer {
   public final static Drivetrain m_Drivetrain = new Drivetrain();
   public final static Arm m_Arm = new Arm();
   public static Intake m_intake = new Intake();
+  public static Vision m_Vision = new Vision();
   // Replace with CommandPS4Controller or CommandJoystick if needed
    public static  XboxController driverController = new XboxController(OperatorConstants.kDriverControllerPort);
+   public static  XboxController coDriverController = new XboxController(OperatorConstants.kCoDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,10 +73,17 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
+    new JoystickButton(driverController, 1).onTrue(m_Arm.setPosition(3)); //b
+    new JoystickButton(driverController, 2).onTrue(m_Arm.setPosition(1)); //b
+    new JoystickButton(driverController, 4).onTrue(m_Arm.setPosition(2)); //y
+    new JoystickButton(driverController, 3).onTrue(m_Arm.flip()); //x
 
-    new JoystickButton(driverController, 2).onTrue(m_Arm.setPosition(1));
-    new JoystickButton(driverController, 4).onTrue(m_Arm.setPosition(2));
-    new JoystickButton(driverController, 3).onTrue(m_Arm.flip());
+    new JoystickButton(driverController, 5).onTrue(new TurnToTarget()); //left bumprt
+    new JoystickButton(driverController, 6).onTrue(new DriveDist()); //right bumprt
+
+    new JoystickButton(coDriverController, 1).onTrue(m_Drivetrain.invertDrive()); //co-drive a
+    new JoystickButton(coDriverController, 2).onTrue(m_Arm.resetEncoder());
+
     // new POVButton(driverController, ).onTrue(m_Arm.setPosition(1));
     // new Trigger(driverController.povUp(null)).onTrue(m_Arm.setPosition(2));
     // new Trigger(driverController.povLeft(null)).onTrue(m_Arm.flip());
@@ -87,6 +99,6 @@ public class RobotContainer {
    */
   // public Command getAutonomousCommand() {
   //   // An example command will be run in autonomous
-  //   // return Autos.exampleAuto(m_exampleSubsystem);
+  //   // return Autos.twoCube(m_Drivetrain, m_intake, m_Arm, m_Vision);
   // }
 }

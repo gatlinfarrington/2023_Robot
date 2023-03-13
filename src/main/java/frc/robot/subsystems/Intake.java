@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -22,17 +23,26 @@ public class Intake extends SubsystemBase {
   CANSparkMax intake2 = new CANSparkMax(motorPortConstants.INTAKE_PORT_2, MotorType.kBrushless);
   DigitalInput intakeLimitSwitch = new DigitalInput(0);
   RelativeEncoder intakeEncoder = intake1.getEncoder();
+  public boolean holding = false;
   public Intake() {
     
   }
 
   public void run_in(){
     if(intakeLimitSwitch.get() == true){
+      holding = false;
       intake1.set(.5);
       intake2.set(-.5);
     }else{
+      if(!holding){
+        RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1);
+        RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1);
+      }
       intake1.set(0);
       intake2.set(0);
+      RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
+        RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
+      holding = true;
     }
   }
 

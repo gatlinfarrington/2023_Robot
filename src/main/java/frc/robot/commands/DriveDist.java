@@ -9,8 +9,9 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DriveArcade extends CommandBase {
-  public DriveArcade() {
+public class DriveDist extends CommandBase {
+  boolean done;
+  public DriveDist() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
   }
@@ -18,15 +19,13 @@ public class DriveArcade extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    double rotateSpeed = -RobotContainer.driverController.getLeftY();
-    double moveSpeed = RobotContainer.driverController.getRightX();
-    
-    RobotContainer.m_Drivetrain.arcadeDrive(moveSpeed, rotateSpeed);
+    done = RobotContainer.m_Drivetrain.driveDistance(170);
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +37,6 @@ public class DriveArcade extends CommandBase {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return false;
+    return done;
   }
 }

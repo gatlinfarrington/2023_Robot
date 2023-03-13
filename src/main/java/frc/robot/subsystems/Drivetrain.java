@@ -4,13 +4,19 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
+
+
 
 public class Drivetrain extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -25,15 +31,57 @@ public class Drivetrain extends SubsystemBase {
   MotorControllerGroup rightMotors = new MotorControllerGroup(right1, right2 );
 
   DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
+  
+  boolean invertedDrive = false;
 
   public Drivetrain() {
     
   }
 
+  public CommandBase invertDrive(){
+    return runOnce(()->{
+      invertedDrive = !invertedDrive;
+    });
+  }
 
   public void arcadeDrive(double moveSpeed, double rotateSpeed) {
-    drive.arcadeDrive(moveSpeed, rotateSpeed);
+    if(!invertedDrive){
+      drive.arcadeDrive(moveSpeed, rotateSpeed);
+
+    }else{
+      drive.arcadeDrive(moveSpeed, -1*rotateSpeed);
+    }
   }
+
+  public void tankDrive(double left, double right){
+    drive.tankDrive(left, right);
+  }
+
+  public boolean driveDistance(int inches){
+
+    //2048*6/8 = 18"
+    //2048*12/6 = 
+    double EncoderCountDist = -1*inches*2048*6/8/1.8;
+    System.out.println("DRIVE DISTANCE");
+    System.out.println("CURRENT: " + left1.getSelectedSensorPosition() + " Goal: " + EncoderCountDist);
+      
+      if(left1.getSelectedSensorPosition() > EncoderCountDist){
+        drive.tankDrive(-.5, .5);
+        return false;
+      }else{
+        drive.tankDrive(0, 0);
+        return true;
+      }
+  }
+
+  public void initializeEncoders(){
+    left1.setSelectedSensorPosition(0);
+    left2.setSelectedSensorPosition(0);
+    right1.setSelectedSensorPosition(0);
+    right2.setSelectedSensorPosition(0);
+  }
+
+  
 
   /**
    * Example command factory method.
@@ -57,6 +105,20 @@ public class Drivetrain extends SubsystemBase {
   public boolean exampleCondition() {
     // Query some boolean state, such as a digital sensor.
     return false;
+  }
+
+  public void setBrakeMode(){
+    left1.setNeutralMode(NeutralMode.Brake);
+    left2.setNeutralMode(NeutralMode.Brake);
+    right1.setNeutralMode(NeutralMode.Brake);
+    right2.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setCoastMode(){
+    left1.setNeutralMode(NeutralMode.Coast);
+    left2.setNeutralMode(NeutralMode.Coast);
+    right1.setNeutralMode(NeutralMode.Coast);
+    right2.setNeutralMode(NeutralMode.Coast);
   }
 
   @Override

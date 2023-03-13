@@ -15,18 +15,19 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kCoDriverControllerPort = 1;
   }
 
   public static class EncoderConstants{
     public static int STARTING_COUNT = 0;
 
-    public static final int FRONT_TOP_COUNT = 9500;
-    public static final int FRONT_MIDDLE_COUNT = 12773;
-    public static final int FRONT_BOTTOM_COUNT = 25859;
+    public static final int FRONT_TOP_COUNT = 12000;
+    public static final int FRONT_MIDDLE_COUNT = 13500;
+    public static final int FRONT_BOTTOM_COUNT = 25000; //adjust for zeroing
     //arm rotation encoder counts
-    public static final int BACK_BOTTOM_COUNT = -25062;
+    public static final int BACK_BOTTOM_COUNT = -25062; //adjust for zeroing
     public static final int BACK_MIDDLE_COUNT = -13208;
-    public static final int BACK_TOP_COUNT = -9500;
+    public static final int BACK_TOP_COUNT = -12000;
     //telescoping arm encoder counts
     public static final int ARM_EXTENDED_COUNT = 0;
     public static final int ARM_UNEXTENDED_COUNT = 0;
@@ -53,6 +54,11 @@ public final class Constants {
   public class ServoPortConstants{
     //SERVOS
     public static final int LIMELIGHT_SERVO_PORT = 1;
+  }
+
+  public class limeLightConstants{
+    public static final double KP = 0.1;
+    public static final double MIN_COMMAND = 0.05;
   }
 
 }
