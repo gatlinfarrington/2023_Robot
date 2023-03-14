@@ -153,7 +153,7 @@ public class Arm extends SubsystemBase {
   public boolean parallelFlip(){ //TESTING THIS APPRAOCH ~ hopefully will solve issues of commands not running in parallel
     if(currentPosition == ArmPosition.FRONT){ //if the arm is in front
         if(ArmMotor.getSelectedSensorPosition() > -1000){ //while not over the middle
-            ArmMotor.set(ControlMode.PercentOutput, -.4); //set the speed to move back
+            ArmMotor.set(ControlMode.PercentOutput, -.3); //set the speed to move back
             return false;
         }else{
             parallelFlipEnd(); //at teh end of the flip, flip the limelight, pipeline, and direction
@@ -162,7 +162,7 @@ public class Arm extends SubsystemBase {
         }
     }else{
         if(ArmMotor.getSelectedSensorPosition() < 1000){ //if not over middle yet
-            ArmMotor.set(ControlMode.PercentOutput, .4); //move arm toward front
+            ArmMotor.set(ControlMode.PercentOutput, .3); //move arm toward front
             return false;
         }else{
             ArmMotor.set(ControlMode.PercentOutput, 0); //set the speed to move back
