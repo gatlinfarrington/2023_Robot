@@ -65,7 +65,7 @@ public class Drivetrain extends SubsystemBase {
     //2048*12/6 = 
     double EncoderCountDist = -1*inches*2048*6/8/1.8; //constant found from encodercount*wheel Diamater*gear ratio * inches
     // System.out.println("DRIVE DISTANCE");
-    // System.out.println("CURRENT: " + left1.getSelectedSensorPosition() + " Goal: " + EncoderCountDist);
+    System.out.println("CURRENT: " + left1.getSelectedSensorPosition() + " Goal: " + EncoderCountDist);
 
 
       if(left1.getSelectedSensorPosition() > EncoderCountDist){ //if we haven't reached encoder count
