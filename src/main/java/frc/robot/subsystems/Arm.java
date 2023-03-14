@@ -187,6 +187,7 @@ public class Arm extends SubsystemBase {
             ArmMotor.set(ControlMode.PercentOutput, -.25);
         }
         ArmMotor.set(ControlMode.PercentOutput, 0);
+        currentPosition = ArmPosition.BACK;
     });
   }
 
