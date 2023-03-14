@@ -22,7 +22,8 @@ public final class TwoCube extends SequentialCommandGroup {
       RobotContainer.m_Arm.autoNudge(),
       RobotContainer.m_Arm.waitForArm(),
       RobotContainer.m_Arm.setPosition(1),
-      new ParallelCommandGroup(new DriveDist(), new flipArmParallel()) //try to see if this will flip the arm and drive at the same time. if not delete this line and uncomment below.
+      // new ParallelCommandGroup(new DriveDist(), new flipArmParallel()) //try to see if this will flip the arm and drive at the same time. if not delete this line and uncomment below.
+      new ParallelCommandGroup(new DriveDist()) //try to see if this will flip the arm and drive at the same time. if no
       // new ParallelCommandGroup(new DriveDist(), RobotContainer.m_Arm.flip()),
       // new ParallelCommandGroup(new DriveDistBack(), RobotContainer.m_Arm.flip()),
       // RobotContainer.m_Vision.setToBackPipeline(),     
