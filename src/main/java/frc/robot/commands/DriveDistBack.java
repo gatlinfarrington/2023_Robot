@@ -25,7 +25,7 @@ public class DriveDistBack extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    done = RobotContainer.m_Drivetrain.driveDistanceBack(175);
+    done = RobotContainer.m_Drivetrain.driveDistanceBack(165);
   }
 
   // Called once the command ends or is interrupted.
