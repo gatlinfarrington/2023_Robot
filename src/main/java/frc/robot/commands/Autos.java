@@ -14,13 +14,29 @@ public final class Autos {
   public static CommandBase exampleAuto(ExampleSubsystem subsystem) {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
   }
-  // public static CommandBase twoCube(Drivetrain d, Intake i, Arm a, Vision v){
-  //   // return Commands.sequence(
-  //   //   a.autoNudge(),
-  //   //   a.setPosition(2),
-  //   //   d.driveDistance(20)
-  //   // );
+  public static CommandBase twoCube(Drivetrain d, Intake i, Arm a, Vision v){
+    return Commands.sequence(
+      a.autoNudge(),
+      
+      a.setPosition(2),
+      flipAndRotate(a)
+      
+      
+    );
+  }
+
+  public static CommandBase flipAndRotate(Arm a){
+    return Commands.parallel(new DriveDist(), a.flip());
+  }
+
+  public static CommandBase flipAndRotateBack(Arm a){
+    return Commands.parallel(new DriveDist(), a.flip());
+  }
+
+  // public static CommandBase waitForArm(){
+    
   // }
+
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");
   }

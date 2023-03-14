@@ -29,7 +29,7 @@ public class TurnToTarget extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    m_done = RobotContainer.m_Vision.targetTurn(RobotContainer.m_Drivetrain);
+    m_done = RobotContainer.m_Vision.targetTurnScaled(RobotContainer.m_Drivetrain);
   }
 
   // Called once the command ends or is interrupted.

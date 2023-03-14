@@ -12,6 +12,9 @@ import frc.robot.commands.DriveDist;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TurnToTarget;
+import frc.robot.commands.TwoCube;
+import frc.robot.commands.changePipeline;
+import frc.robot.commands.flipLimelight;
 import frc.robot.subsystems.Arm;
 // import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
@@ -83,6 +86,9 @@ public class RobotContainer {
 
     new JoystickButton(coDriverController, 1).onTrue(m_Drivetrain.invertDrive()); //co-drive a
     new JoystickButton(coDriverController, 2).onTrue(m_Arm.resetEncoder());
+    
+    new JoystickButton(coDriverController, 5).onTrue(new changePipeline()); //left bumper
+    new JoystickButton(coDriverController, 6).onTrue(new flipLimelight()); //right bumper
 
     // new POVButton(driverController, ).onTrue(m_Arm.setPosition(1));
     // new Trigger(driverController.povUp(null)).onTrue(m_Arm.setPosition(2));
@@ -97,8 +103,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   // An example command will be run in autonomous
-  //   // return Autos.twoCube(m_Drivetrain, m_intake, m_Arm, m_Vision);
-  // }
+  public Command getAutonomousCommand() {
+    // An example command will be run in autonomous
+    return new TwoCube();
+  }
 }

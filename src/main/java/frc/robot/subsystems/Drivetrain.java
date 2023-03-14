@@ -57,16 +57,70 @@ public class Drivetrain extends SubsystemBase {
     drive.tankDrive(left, right);
   }
 
+  double leftSpeed = .40;
+  double rightSpeed = .40;
   public boolean driveDistance(int inches){
 
     //2048*6/8 = 18"
     //2048*12/6 = 
-    double EncoderCountDist = -1*inches*2048*6/8/1.8;
+    double EncoderCountDist = -1*inches*2048*6/8/1.8; 
+    // System.out.println("DRIVE DISTANCE");
+    // System.out.println("CURRENT: " + left1.getSelectedSensorPosition() + " Goal: " + EncoderCountDist);
+      
+      // if(left1.getSelectedSensorPosition() > EncoderCountDist){
+      //   drive.tankDrive(-.4, .4);
+      //   return false;
+      // }else{
+      //   drive.tankDrive(0, 0);
+      //   return true;
+      // }
+
+      if(left1.getSelectedSensorPosition() > EncoderCountDist){
+        if(-1*left1.getSelectedSensorPosition() > right1.getSelectedSensorPosition()){
+          rightSpeed += .0015;
+        }else if(-1*left1.getSelectedSensorPosition() < right1.getSelectedSensorPosition()){
+          rightSpeed -= .0015;
+        }else{
+          //do nothing
+        }
+        drive.tankDrive(-leftSpeed, rightSpeed);
+        return false;
+      }else{
+        drive.tankDrive(0, 0);
+        initializeEncoders();
+        return true;
+      }
+  }
+  boolean firstTimeback = true;
+  public boolean driveDistanceBack(int inches){
+    if(firstTimeback){
+      leftSpeed = .40;
+      rightSpeed = .40;
+      firstTimeback = false;
+    }
+    //2048*6/8 = 18"
+    //2048*12/6 = 
+    double EncoderCountDist = inches*2048*6/8/1.8; 
     System.out.println("DRIVE DISTANCE");
     System.out.println("CURRENT: " + left1.getSelectedSensorPosition() + " Goal: " + EncoderCountDist);
       
-      if(left1.getSelectedSensorPosition() > EncoderCountDist){
-        drive.tankDrive(-.5, .5);
+      // if(left1.getSelectedSensorPosition() > EncoderCountDist){
+      //   drive.tankDrive(-.4, .4);
+      //   return false;
+      // }else{
+      //   drive.tankDrive(0, 0);
+      //   return true;
+      // }
+
+      if(left1.getSelectedSensorPosition() < EncoderCountDist){
+        if(-1*left1.getSelectedSensorPosition() < right1.getSelectedSensorPosition()){
+          rightSpeed += .0015;
+        }else if(-1*left1.getSelectedSensorPosition() > right1.getSelectedSensorPosition()){
+          rightSpeed -= .0015;
+        }else{
+          //do nothing
+        }
+        drive.tankDrive(leftSpeed, -rightSpeed);
         return false;
       }else{
         drive.tankDrive(0, 0);

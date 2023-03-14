@@ -9,34 +9,33 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DriveDist extends CommandBase {
-  boolean done;
-  public DriveDist() {
+public class flipLimelight extends CommandBase {
+  public flipLimelight() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_Drivetrain);
+    addRequirements(RobotContainer.m_Arm);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    done = RobotContainer.m_Drivetrain.driveDistance(185);
+    RobotContainer.m_Arm.flipLimeServo();
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_Drivetrain.arcadeDrive(0, 0);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return done;
+    return true;
   }
 }

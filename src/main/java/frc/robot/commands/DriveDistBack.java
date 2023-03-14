@@ -9,9 +9,9 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DriveDist extends CommandBase {
+public class DriveDistBack extends CommandBase {
   boolean done;
-  public DriveDist() {
+  public DriveDistBack() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
   }
@@ -25,7 +25,7 @@ public class DriveDist extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    done = RobotContainer.m_Drivetrain.driveDistance(185);
+    done = RobotContainer.m_Drivetrain.driveDistanceBack(175);
   }
 
   // Called once the command ends or is interrupted.

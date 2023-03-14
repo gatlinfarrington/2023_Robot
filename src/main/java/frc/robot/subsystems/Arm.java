@@ -82,13 +82,13 @@ public class Arm extends SubsystemBase {
                         ArmMotor.set(ControlMode.PercentOutput, -.3);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
-                    RobotContainer.m_intake.dispense(.65, 2);
+                    RobotContainer.m_intake.dispense(.75, 2);
                 }else{
                     while(ArmMotor.getSelectedSensorPosition() < EncoderConstants.BACK_MIDDLE_COUNT + 100){
                         ArmMotor.set(ControlMode.PercentOutput, .3);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
-                    RobotContainer.m_intake.dispense(.7, 2);
+                    RobotContainer.m_intake.dispense(.8, 2);
                 }
             }
         );
@@ -111,7 +111,7 @@ public class Arm extends SubsystemBase {
         );
     }else{ //LOW
         return runOnce(() -> {
-           RobotContainer.m_intake.dispense(.5, 2);
+           RobotContainer.m_intake.dispense(.5, 3.5);
          });
     }
         
@@ -123,21 +123,23 @@ public class Arm extends SubsystemBase {
         () ->{
             if(ArmMotor.getSelectedSensorPosition() > 0){
                 while(ArmMotor.getSelectedSensorPosition() > -1000){
-                    ArmMotor.set(ControlMode.PercentOutput, -.3);
+                    ArmMotor.set(ControlMode.PercentOutput, -.4);
                 }
                 ArmMotor.set(ControlMode.PercentOutput, 0);
             }else{
                 while(ArmMotor.getSelectedSensorPosition() <  1000){
-                    ArmMotor.set(ControlMode.PercentOutput, .3);
+                    ArmMotor.set(ControlMode.PercentOutput, .4);
                 }
                 ArmMotor.set(ControlMode.PercentOutput, 0);
             }
             flipLimeServo();
+            RobotContainer.m_Vision.changePipeline();
             if(currentPosition == ArmPosition.FRONT){
                 currentPosition = ArmPosition.BACK;
             }else{
                 currentPosition = ArmPosition.FRONT;
             }
+            
         }
     );
     
@@ -145,10 +147,18 @@ public class Arm extends SubsystemBase {
 
   public CommandBase autoNudge(){
     return runOnce(()->{ //move the arm to the down position in the front (battery side)
-        while(ArmMotor.getSelectedSensorPosition() < 200){
-            ArmMotor.set(ControlMode.PercentOutput, .15);
+        while(ArmMotor.getSelectedSensorPosition() > -7000){
+            ArmMotor.set(ControlMode.PercentOutput, -.25);
         }
         ArmMotor.set(ControlMode.PercentOutput, 0);
+    });
+  }
+
+  public CommandBase waitForArm(){
+    return runOnce(()->{
+        while(Math.abs(ArmMotor.getSelectedSensorPosition()) < 20000){
+            //do nothing
+        }
     });
   }
 
@@ -160,6 +170,7 @@ public class Arm extends SubsystemBase {
         limelightServo.setAngle(0);
     }
     isLimeLightFront = !isLimeLightFront; //flip the direction of the limelight
+    
   }
 
   public void setArmPosition(double position) {
