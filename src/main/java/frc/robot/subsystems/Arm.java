@@ -157,6 +157,7 @@ public class Arm extends SubsystemBase {
             return false;
         }else{
             parallelFlipEnd(); //at teh end of the flip, flip the limelight, pipeline, and direction
+            ArmMotor.set(ControlMode.PercentOutput, 0); //set the speed to move back
             return true;
         }
     }else{
@@ -164,6 +165,7 @@ public class Arm extends SubsystemBase {
             ArmMotor.set(ControlMode.PercentOutput, .4); //move arm toward front
             return false;
         }else{
+            ArmMotor.set(ControlMode.PercentOutput, 0); //set the speed to move back
             parallelFlipEnd(); //when over the middle, flip all that need to be flipped
             return true;
         }
