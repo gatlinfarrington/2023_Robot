@@ -19,12 +19,12 @@ public final class TwoCube extends SequentialCommandGroup {
     addCommands(
       RobotContainer.m_Arm.autoNudge(),
       RobotContainer.m_Arm.waitForArm(),
-      RobotContainer.m_Arm.setPosition(1),
-      new ParallelCommandGroup(new DriveDist(), RobotContainer.m_Arm.flip()),
-      new ParallelCommandGroup(new DriveDistBack(), RobotContainer.m_Arm.flip()),
-      RobotContainer.m_Vision.setToBackPipeline(),     
-      new TurnToTarget(),
-      RobotContainer.m_Arm.setPosition(3)
+      RobotContainer.m_Arm.setPosition(1)
+      // new ParallelCommandGroup(new DriveDist(), RobotContainer.m_Arm.flip()),
+      // new ParallelCommandGroup(new DriveDistBack(), RobotContainer.m_Arm.flip()),
+      // RobotContainer.m_Vision.setToBackPipeline(),     
+      // new TurnToTarget(),
+      // RobotContainer.m_Arm.setPosition(3)
     );
   }
 }
