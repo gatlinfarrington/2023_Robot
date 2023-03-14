@@ -6,7 +6,6 @@ package frc.robot;
 
 import frc.robot.Constants.EncoderConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveDist;
 import frc.robot.commands.ExampleCommand;

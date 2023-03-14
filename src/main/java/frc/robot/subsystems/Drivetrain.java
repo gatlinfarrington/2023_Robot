@@ -32,28 +32,28 @@ public class Drivetrain extends SubsystemBase {
 
   DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
   
-  boolean invertedDrive = false;
+  boolean invertedDrive = false; //togleable invert front of robot
 
   public Drivetrain() {
     
   }
 
-  public CommandBase invertDrive(){
+  public CommandBase invertDrive(){ //swap front and back of robot
     return runOnce(()->{
       invertedDrive = !invertedDrive;
     });
   }
 
   public void arcadeDrive(double moveSpeed, double rotateSpeed) {
-    if(!invertedDrive){
-      drive.arcadeDrive(moveSpeed, rotateSpeed);
+    if(!invertedDrive){ //check for invert
+      drive.arcadeDrive(moveSpeed, rotateSpeed); //if no move forward (battery side)
 
     }else{
-      drive.arcadeDrive(moveSpeed, -1*rotateSpeed);
+      drive.arcadeDrive(moveSpeed, -1*rotateSpeed); //if yes forward becomes back (non-battery becomes forward)
     }
   }
 
-  public void tankDrive(double left, double right){
+  public void tankDrive(double left, double right){ //controls right and left speeds independantly
     drive.tankDrive(left, right);
   }
 
@@ -63,31 +63,24 @@ public class Drivetrain extends SubsystemBase {
 
     //2048*6/8 = 18"
     //2048*12/6 = 
-    double EncoderCountDist = -1*inches*2048*6/8/1.8; 
+    double EncoderCountDist = -1*inches*2048*6/8/1.8; //constant found from encodercount*wheel Diamater*gear ratio * inches
     // System.out.println("DRIVE DISTANCE");
     // System.out.println("CURRENT: " + left1.getSelectedSensorPosition() + " Goal: " + EncoderCountDist);
-      
-      // if(left1.getSelectedSensorPosition() > EncoderCountDist){
-      //   drive.tankDrive(-.4, .4);
-      //   return false;
-      // }else{
-      //   drive.tankDrive(0, 0);
-      //   return true;
-      // }
 
-      if(left1.getSelectedSensorPosition() > EncoderCountDist){
-        if(-1*left1.getSelectedSensorPosition() > right1.getSelectedSensorPosition()){
-          rightSpeed += .0015;
-        }else if(-1*left1.getSelectedSensorPosition() < right1.getSelectedSensorPosition()){
-          rightSpeed -= .0015;
+
+      if(left1.getSelectedSensorPosition() > EncoderCountDist){ //if we haven't reached encoder count
+        if(-1*left1.getSelectedSensorPosition() > right1.getSelectedSensorPosition()){ //if right is moving slower than left
+          rightSpeed += .0015; //speed up right
+        }else if(-1*left1.getSelectedSensorPosition() < right1.getSelectedSensorPosition()){ //if left is slower than right
+          rightSpeed -= .0015; //slow down right
         }else{
           //do nothing
         }
-        drive.tankDrive(-leftSpeed, rightSpeed);
+        drive.tankDrive(-leftSpeed, rightSpeed); //drive with adjusted speeds
         return false;
       }else{
-        drive.tankDrive(0, 0);
-        initializeEncoders();
+        drive.tankDrive(0, 0); //at the end stop drivetrain
+        initializeEncoders(); //reset the encoders back to 0
         return true;
       }
   }
@@ -103,14 +96,7 @@ public class Drivetrain extends SubsystemBase {
     double EncoderCountDist = inches*2048*6/8/1.8; 
     System.out.println("DRIVE DISTANCE");
     System.out.println("CURRENT: " + left1.getSelectedSensorPosition() + " Goal: " + EncoderCountDist);
-      
-      // if(left1.getSelectedSensorPosition() > EncoderCountDist){
-      //   drive.tankDrive(-.4, .4);
-      //   return false;
-      // }else{
-      //   drive.tankDrive(0, 0);
-      //   return true;
-      // }
+
 
       if(left1.getSelectedSensorPosition() < EncoderCountDist){
         if(-1*left1.getSelectedSensorPosition() < right1.getSelectedSensorPosition()){
@@ -161,14 +147,14 @@ public class Drivetrain extends SubsystemBase {
     return false;
   }
 
-  public void setBrakeMode(){
+  public void setBrakeMode(){ //sets all motors into brake mode (when stopped, robot slams stop)
     left1.setNeutralMode(NeutralMode.Brake);
     left2.setNeutralMode(NeutralMode.Brake);
     right1.setNeutralMode(NeutralMode.Brake);
     right2.setNeutralMode(NeutralMode.Brake);
   }
 
-  public void setCoastMode(){
+  public void setCoastMode(){ //sets all to coast mode (when stopped, robot will roll to a stop)
     left1.setNeutralMode(NeutralMode.Coast);
     left2.setNeutralMode(NeutralMode.Coast);
     right1.setNeutralMode(NeutralMode.Coast);

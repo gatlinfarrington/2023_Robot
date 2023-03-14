@@ -2,28 +2,30 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ArmCommands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class changePipeline extends CommandBase {
-  public changePipeline() {
+public class flipArmParallel extends CommandBase {
+  boolean done = false;
+  public flipArmParallel() {
     // Use addRequirements() here to declare subsystem dependencies.
-    // addRequirements(RobotContainer.m_Vision);
+    addRequirements(RobotContainer.m_Arm);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    RobotContainer.m_Vision.changePipeline();
+    done = RobotContainer.m_Arm.parallelFlip();
     
   }
 
@@ -36,6 +38,6 @@ public class changePipeline extends CommandBase {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return true;
+    return done;
   }
 }

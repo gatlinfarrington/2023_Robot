@@ -23,7 +23,7 @@ public class flipLimelight extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    RobotContainer.m_Arm.flipLimeServo();
+    RobotContainer.m_Arm.flip();
     
   }
 

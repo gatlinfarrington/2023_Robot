@@ -19,12 +19,13 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 
 public class Arm extends SubsystemBase {
+    //keep track of current arm position
   public enum ArmPosition{
     STARTING,
     FRONT,
     BACK
   }
-  
+  //initialize variables and obejcts
   ArmPosition currentPosition = ArmPosition.FRONT;
   ArmPosition lastPosition;
 
@@ -37,7 +38,7 @@ public class Arm extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public Arm() {
     // ArmMotor_slave.follow(ArmMotor);
-    ArmMotor.setNeutralMode(NeutralMode.Brake);
+    ArmMotor.setNeutralMode(NeutralMode.Brake); //arm should be in brake mode
     ArmMotor.setSelectedSensorPosition(0);
   }
 
@@ -74,16 +75,18 @@ public class Arm extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-  public CommandBase setPosition(int position){
+
+
+  public CommandBase setPosition(int position){ //this method will raise the arm, then shoot out at that posiiton. Arm will fall back to resting state.
     if(position == 1){ //MIDDLE
         return runOnce(() -> {
-                if(ArmMotor.getSelectedSensorPosition() > 0){
+                if(ArmMotor.getSelectedSensorPosition() > 0){ //if front side
                     while(ArmMotor.getSelectedSensorPosition() > EncoderConstants.FRONT_MIDDLE_COUNT - 100){
                         ArmMotor.set(ControlMode.PercentOutput, -.3);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
                     RobotContainer.m_intake.dispense(.75, 2);
-                }else{
+                }else{ //if back side
                     while(ArmMotor.getSelectedSensorPosition() < EncoderConstants.BACK_MIDDLE_COUNT + 100){
                         ArmMotor.set(ControlMode.PercentOutput, .3);
                     }
@@ -94,13 +97,13 @@ public class Arm extends SubsystemBase {
         );
     }else if(position == 2){ //HIGH
         return runOnce(() -> {
-            if(ArmMotor.getSelectedSensorPosition() > 0){
+            if(ArmMotor.getSelectedSensorPosition() > 0){ //if front side
                     while(ArmMotor.getSelectedSensorPosition() > EncoderConstants.FRONT_TOP_COUNT - 100){
                         ArmMotor.set(ControlMode.PercentOutput, -.3);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
                     RobotContainer.m_intake.dispense(.8, 1);
-                }else{
+                }else{ //if back side
                     while(ArmMotor.getSelectedSensorPosition() < EncoderConstants.BACK_TOP_COUNT + 100){
                         ArmMotor.set(ControlMode.PercentOutput, .4);
                     }
@@ -110,7 +113,7 @@ public class Arm extends SubsystemBase {
             }
         );
     }else{ //LOW
-        return runOnce(() -> {
+        return runOnce(() -> { //doesn't matter if front or back side.
            RobotContainer.m_intake.dispense(.5, 3.5);
          });
     }
@@ -121,20 +124,21 @@ public class Arm extends SubsystemBase {
   public CommandBase flip(){
     return runOnce(
         () ->{
-            if(ArmMotor.getSelectedSensorPosition() > 0){
+            if(ArmMotor.getSelectedSensorPosition() > 0){ //if front side
                 while(ArmMotor.getSelectedSensorPosition() > -1000){
-                    ArmMotor.set(ControlMode.PercentOutput, -.4);
+                    ArmMotor.set(ControlMode.PercentOutput, -.4); //move the arm backward
                 }
                 ArmMotor.set(ControlMode.PercentOutput, 0);
             }else{
-                while(ArmMotor.getSelectedSensorPosition() <  1000){
-                    ArmMotor.set(ControlMode.PercentOutput, .4);
+                while(ArmMotor.getSelectedSensorPosition() <  1000){ //if back side
+                    ArmMotor.set(ControlMode.PercentOutput, .4); //move arm forward
                 }
                 ArmMotor.set(ControlMode.PercentOutput, 0);
             }
-            flipLimeServo();
-            RobotContainer.m_Vision.changePipeline();
-            if(currentPosition == ArmPosition.FRONT){
+            //these all need to flip with arm
+            flipLimeServo(); //direction of limelight
+            RobotContainer.m_Vision.changePipeline(); //limelight pipeline
+            if(currentPosition == ArmPosition.FRONT){ //flip arm position enum
                 currentPosition = ArmPosition.BACK;
             }else{
                 currentPosition = ArmPosition.FRONT;
@@ -145,8 +149,40 @@ public class Arm extends SubsystemBase {
     
   }
 
-  public CommandBase autoNudge(){
-    return runOnce(()->{ //move the arm to the down position in the front (battery side)
+
+  public boolean parallelFlip(){ //TESTING THIS APPRAOCH ~ hopefully will solve issues of commands not running in parallel
+    if(currentPosition == ArmPosition.FRONT){ //if the arm is in front
+        if(ArmMotor.getSelectedSensorPosition() > -1000){ //while not over the middle
+            ArmMotor.set(ControlMode.PercentOutput, -.4); //set the speed to move back
+            return false;
+        }else{
+            parallelFlipEnd(); //at teh end of the flip, flip the limelight, pipeline, and direction
+            return true;
+        }
+    }else{
+        if(ArmMotor.getSelectedSensorPosition() < 1000){ //if not over middle yet
+            ArmMotor.set(ControlMode.PercentOutput, .4); //move arm toward front
+            return false;
+        }else{
+            parallelFlipEnd(); //when over the middle, flip all that need to be flipped
+            return true;
+        }
+    }
+
+  }
+
+  public void parallelFlipEnd(){ //flip all values that need to be flipped after the arm flips
+    flipLimeServo();
+    RobotContainer.m_Vision.changePipeline();
+    if(currentPosition == ArmPosition.FRONT){
+        currentPosition = ArmPosition.BACK;
+    }else{
+        currentPosition = ArmPosition.FRONT;
+    }
+  }
+
+  public CommandBase autoNudge(){ //nudges the arm forward for the beginning of a match
+    return runOnce(()->{ //move the arm to the down position in the back (non-battery side)?
         while(ArmMotor.getSelectedSensorPosition() > -7000){
             ArmMotor.set(ControlMode.PercentOutput, -.25);
         }
@@ -154,7 +190,7 @@ public class Arm extends SubsystemBase {
     });
   }
 
-  public CommandBase waitForArm(){
+  public CommandBase waitForArm(){ //do nothing until the arm is at the bottom, only used in auto
     return runOnce(()->{
         while(Math.abs(ArmMotor.getSelectedSensorPosition()) < 20000){
             //do nothing
@@ -163,7 +199,7 @@ public class Arm extends SubsystemBase {
   }
 
 
-  public void flipLimeServo(){
+  public void flipLimeServo(){ //rotate limelight servo
     if(isLimeLightFront){ //battery side
         limelightServo.setAngle(171);
     }else{ //no-battery side
@@ -173,12 +209,12 @@ public class Arm extends SubsystemBase {
     
   }
 
-  public void setArmPosition(double position) {
+  public void setArmPosition(double position) { //not used
     //DO NOTHING
     ArmMotor.set(TalonFXControlMode.Position, position);
   }
 
-  public int getDirection(){
+  public int getDirection(){ //hardly used
     if(currentPosition == ArmPosition.STARTING){
         return 99;
     }else if(currentPosition == ArmPosition.FRONT){
@@ -188,14 +224,14 @@ public class Arm extends SubsystemBase {
     }
   }
 
-  public double getEncoderPosition(){
+  public double getEncoderPosition(){ //used for testing
     return ArmMotor.getSelectedSensorPosition();
   }
 
-  public void zeroEncoder(){
+  public void zeroEncoder(){ //initialize
     ArmMotor.setSelectedSensorPosition(0);
   }
-  public CommandBase resetEncoder(){
+  public CommandBase resetEncoder(){ //can reset encoder that has strayed away from required vals. Useful if motor loses accuracy
     return runOnce(()->{
         if(ArmMotor.getSelectedSensorPosition() < 0){
             ArmMotor.setSelectedSensorPosition(EncoderConstants.BACK_BOTTOM_COUNT);

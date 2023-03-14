@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   CANSparkMax intake1 = new CANSparkMax(motorPortConstants.INTAKE_PORT_1, MotorType.kBrushless);
   CANSparkMax intake2 = new CANSparkMax(motorPortConstants.INTAKE_PORT_2, MotorType.kBrushless);
-  DigitalInput intakeLimitSwitch = new DigitalInput(0);
+  DigitalInput intakeLimitSwitch = new DigitalInput(0); //LIMIT SWITCH
   RelativeEncoder intakeEncoder = intake1.getEncoder();
   public boolean holding = false;
   public Intake() {
@@ -29,16 +29,16 @@ public class Intake extends SubsystemBase {
   }
 
   public void run_in(){
-    if(intakeLimitSwitch.get() == true){
-      holding = false;
-      intake1.set(.5);
+    if(intakeLimitSwitch.get() == true){ //if limit switch is not help
+      holding = false; //we are not holding a cube
+      intake1.set(.5); //set intaking speeds
       intake2.set(-.5);
     }else{
-      if(!holding){
-        RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1);
+      if(!holding){ //rumble not working (no rumble motor in our controller)
+        RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1); 
         RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1);
       }
-      intake1.set(0);
+      intake1.set(0); //stop the intake
       intake2.set(0);
       RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
         RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
@@ -46,16 +46,16 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  public void run_out(){
+  public void run_out(){ //outtake at full speed
     intake1.set(-1);
     intake2.set(1);
   }
-  public void stop(){
+  public void stop(){ //stop the intake
     intake1.set(0);
     intake2.set(0);
   }
 
-  public void dispense(double speed, double rotations){
+  public void dispense(double speed, double rotations){ //dispense at a speed and certain number of rotations
     System.out.println("DISPENSE!!!!");
     intakeEncoder.setPosition(0);
     while(intakeEncoder.getPosition() > rotations*-8){
@@ -64,7 +64,7 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  public double getEncoderCount(){
+  public double getEncoderCount(){ 
     return intakeEncoder.getPosition();
   }
 
