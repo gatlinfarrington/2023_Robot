@@ -12,9 +12,12 @@ import frc.robot.commands.DriveDist;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TurnToTarget;
-import frc.robot.commands.TwoCube;
 import frc.robot.commands.changePipeline;
 import frc.robot.commands.flipLimelight;
+import frc.robot.commands.AutoCommands.OneCubeDrive;
+import frc.robot.commands.AutoCommands.OneCubeNoDrive;
+import frc.robot.commands.AutoCommands.OnlyDrive;
+import frc.robot.commands.AutoCommands.TwoCube;
 import frc.robot.subsystems.Arm;
 // import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
@@ -103,8 +106,16 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand(String auto) {
     // An example command will be run in autonomous
-    return new TwoCube();
+    if(auto.equals("TwoCube")){
+      return new TwoCube();
+    }else if(auto.equals("OneCubeDrive")){
+      return new OneCubeDrive();
+    }else if(auto.equals("OneCubeNoDrive")){
+      return new OneCubeNoDrive();
+    }else{
+      return new OnlyDrive();
+    }
   }
 }
