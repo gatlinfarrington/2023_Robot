@@ -57,8 +57,8 @@ public class Drivetrain extends SubsystemBase {
     drive.tankDrive(left, right);
   }
 
-  double leftSpeed = .40;
-  double rightSpeed = .40;
+  double leftSpeed = .48;
+  double rightSpeed = .48;
   public boolean driveDistance(int inches){
 
     //2048*6/8 = 18"
@@ -70,9 +70,9 @@ public class Drivetrain extends SubsystemBase {
 
       if(left1.getSelectedSensorPosition() > EncoderCountDist){ //if we haven't reached encoder count
         if(-1*left1.getSelectedSensorPosition() > right1.getSelectedSensorPosition()){ //if right is moving slower than left
-          rightSpeed += .0015; //speed up right
+          rightSpeed += .0022; //speed up right
         }else if(-1*left1.getSelectedSensorPosition() < right1.getSelectedSensorPosition()){ //if left is slower than right
-          rightSpeed -= .0015; //slow down right
+          rightSpeed -= .0022; //slow down right
         }else{
           //do nothing
         }
