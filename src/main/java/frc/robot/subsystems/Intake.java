@@ -24,6 +24,7 @@ public class Intake extends SubsystemBase {
   DigitalInput intakeLimitSwitch = new DigitalInput(0); //LIMIT SWITCH
   RelativeEncoder intakeEncoder = intake1.getEncoder();
   public boolean holding = false;
+ 
   public Intake() {
     
   }
@@ -31,8 +32,8 @@ public class Intake extends SubsystemBase {
   public void run_in(){
     if(intakeLimitSwitch.get() == true){ //if limit switch is not help
       holding = false; //we are not holding a cube
-      intake1.set(.5); //set intaking speeds
-      intake2.set(-.5);
+      intake1.set(.4); //set intaking speeds
+      intake2.set(-.4);
     }else{
       if(!holding){ //rumble not working (no rumble motor in our controller)
         RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1); 
@@ -43,6 +44,7 @@ public class Intake extends SubsystemBase {
       RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
         RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
       holding = true;
+      System.out.println("Forever Cube!!");
     }
   }
 
