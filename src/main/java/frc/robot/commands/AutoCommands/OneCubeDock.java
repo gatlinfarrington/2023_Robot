@@ -7,8 +7,7 @@ package frc.robot.commands.AutoCommands;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveDist;
-import frc.robot.commands.DriveDistBack;
-import frc.robot.commands.TurnToTarget;
+import frc.robot.commands.DriveDistBackHalf;
 import frc.robot.commands.ArmCommands.flipArmParallel;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -16,21 +15,19 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public final class TwoCube extends SequentialCommandGroup {
+public final class OneCubeDock extends SequentialCommandGroup {
   
 
-  public TwoCube() {
+  public OneCubeDock() {
     addCommands(
       RobotContainer.m_Arm.autoNudge(),
       RobotContainer.m_Arm.waitForArm(),
       RobotContainer.m_Arm.setPosition(2),
-      new ParallelCommandGroup(new DriveDist(), new flipArmParallel()), //try to see if this will flip the arm and drive at the same time. if not delete this line and uncomment below.
-      // new ParallelCommandGroup(new DriveDist()) //try to see if this will flip the arm and drive at the same time. if no
-      // new ParallelCommandGroup(new DriveDist(), RobotContainer.m_Arm.flip()),
-      new ParallelCommandGroup(new DriveDistBack(), new flipArmParallel()),
-      RobotContainer.m_Vision.setToBackPipeline(),     
-      new TurnToTarget(),
-      RobotContainer.m_Arm.setPosition(3)
+      new ParallelCommandGroup(new DriveDist(), new flipArmParallel()),
+      new ParallelCommandGroup(new DriveDistBackHalf())
+      // RobotContainer.m_Vision.setToBackPipeline(),     
+      // new TurnToTarget(),
+      // RobotContainer.m_Arm.setPosition(3)
     );
   }
 }

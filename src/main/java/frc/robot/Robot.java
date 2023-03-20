@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
    private static final String kOneCubeDrive = "OneCubeDrive";
    private static final String kOneCubeNoDrive = "OneCubeNoDrive";
    private static final String kDriveOnly = "Drive";
+   private static final String kDriveDock= "OneCubeDock";
 
   //  if(auto.equals("TwoCube")){
   //   return new TwoCube();
@@ -69,6 +70,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("One Cube Drive", kOneCubeDrive);
     m_chooser.addOption("One Cube *no* Drive", kOneCubeNoDrive);
     m_chooser.addOption("Only Drive", kDriveOnly);
+    m_chooser.addOption("One Cube dock", kDriveDock);
     SmartDashboard.putData("Auto Choices", m_chooser);
   }
 
@@ -131,6 +133,20 @@ public class Robot extends TimedRobot {
     }
     RobotContainer.m_Drivetrain.initializeEncoders();
     RobotContainer.m_Drivetrain.setCoastMode();
+
+    if(m_chooser.getSelected().equals("TwoCube")){
+      RobotContainer.m_Arm.setBackBottom();
+    }else if(m_chooser.getSelected().equals("OneCubeDrive")){
+      RobotContainer.m_Arm.setFrontBottom();
+    }else if(m_chooser.getSelected().equals("OneCubeNoDrive")){
+      RobotContainer.m_Arm.setBackBottom();
+    }else if(m_chooser.getSelected().equals("OneCubeDock")){
+        RobotContainer.m_Arm.setFrontBottom();
+    }else{
+      RobotContainer.m_Arm.setBackBottom();
+    }
+
+    RobotContainer.m_Drivetrain.brakeModeBool = false;
     
   }
 
@@ -138,6 +154,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // System.out.println(RobotContainer.m_Arm.getEncoderPosition());
+    if(RobotContainer.m_Drivetrain.brakeModeBool){
+      RobotContainer.m_Drivetrain.setBrakeMode();
+    }else{
+      RobotContainer.m_Drivetrain.setCoastMode();
+    }
   }
   
 
@@ -146,7 +167,9 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     // testArm.setSelectedSensorPosition(0);
-    RobotContainer.m_intake.resetEncoder();
+    // RobotContainer.m_intake.resetEncoder();
+    RobotContainer.m_Arm.zeroEncoder();
+
 
   }
 
@@ -154,7 +177,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     // RobotContainer.m_Drivetrain.printVals();
-    System.out.println("Limelgiht angle " + RobotContainer.m_Arm.getLimelightAngle());
+    System.out.println(RobotContainer.m_Arm.getEncoderPosition());
+    // System.out.println("Limelgiht angle " + RobotContainer.m_Arm.getLimelightAngle());
+    
   }
 
   /** This function is called once when the robot is first started up. */

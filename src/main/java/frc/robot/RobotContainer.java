@@ -13,6 +13,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TurnToTarget;
 import frc.robot.commands.changePipeline;
 import frc.robot.commands.flipLimelight;
+import frc.robot.commands.AutoCommands.OneCubeDock;
 import frc.robot.commands.AutoCommands.OneCubeDrive;
 import frc.robot.commands.AutoCommands.OneCubeNoDrive;
 import frc.robot.commands.AutoCommands.OnlyDrive;
@@ -78,16 +79,20 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    new JoystickButton(driverController, 1).onTrue(m_Arm.setPosition(3)); //b
-    new JoystickButton(driverController, 2).onTrue(m_Arm.setPosition(1)); //b
-    new JoystickButton(driverController, 4).onTrue(m_Arm.setPosition(2)); //y
-    new JoystickButton(driverController, 3).onTrue(m_Arm.flip()); //x
+    new JoystickButton(driverController, 1).onTrue(m_Arm.setPosition(3)); //a *Low Goal
+    new JoystickButton(driverController, 2).onTrue(m_Arm.setPosition(1)); //b *Middle Goal
+    new JoystickButton(driverController, 3).onTrue(m_Arm.setPosition(2)); //x *High Goal
+    new JoystickButton(driverController, 4).onTrue(m_Arm.flip()); //y *flip arm
 
-    new JoystickButton(driverController, 5).onTrue(new TurnToTarget()); //left bumprt
-    new JoystickButton(driverController, 6).onTrue(new DriveDist()); //right bumprt
+    new JoystickButton(driverController, 5).onTrue(new TurnToTarget()); //left bumprt *Limelight
+    // new JoystickButton(driverController, 6).onTrue(new DriveDist()); //right bumprt
 
-    new JoystickButton(coDriverController, 1).onTrue(m_Drivetrain.invertDrive()); //co-drive a
-    new JoystickButton(coDriverController, 2).onTrue(m_Arm.resetEncoder());
+    new JoystickButton(driverController, 6).onTrue(m_Drivetrain.invertDrive()); //drive a *flip drive
+
+
+    new JoystickButton(coDriverController, 1).onTrue(m_Drivetrain.halfSpeed()); //Co Drive A //Speed in Half
+    new JoystickButton(coDriverController, 3).onTrue(m_Drivetrain.toggleBrake()); //Co Drive A //Speed in Half
+    new JoystickButton(coDriverController, 2).onTrue(m_Arm.resetEncoder()); //Co Drive B //Reset Arm position
     
     new JoystickButton(coDriverController, 5).onTrue(new changePipeline()); //left bumper
     new JoystickButton(coDriverController, 6).onTrue(new flipLimelight()); //right bumper
@@ -113,6 +118,8 @@ public class RobotContainer {
       return new OneCubeDrive();
     }else if(auto.equals("OneCubeNoDrive")){
       return new OneCubeNoDrive();
+    }else if(auto.equals("OneCubeDock")){
+      return new OneCubeDock();
     }else{
       return new OnlyDrive();
     }

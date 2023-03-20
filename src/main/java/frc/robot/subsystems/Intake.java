@@ -34,6 +34,7 @@ public class Intake extends SubsystemBase {
       holding = false; //we are not holding a cube
       intake1.set(.4); //set intaking speeds
       intake2.set(-.4);
+      System.out.println("------------------------------------------");
     }else{
       if(!holding){ //rumble not working (no rumble motor in our controller)
         RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1); 
@@ -44,7 +45,7 @@ public class Intake extends SubsystemBase {
       RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
         RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
       holding = true;
-      System.out.println("Forever Cube!!");
+      System.out.println("FOREVER CUBE!!");
     }
   }
 

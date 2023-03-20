@@ -33,6 +33,8 @@ public class Drivetrain extends SubsystemBase {
   DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
   
   boolean invertedDrive = false; //togleable invert front of robot
+  boolean halfSpeed = true;
+  public boolean brakeModeBool = false;
 
   public Drivetrain() {
     
@@ -44,17 +46,34 @@ public class Drivetrain extends SubsystemBase {
     });
   }
 
+  public CommandBase halfSpeed(){
+    return runOnce(() -> {
+      halfSpeed = !halfSpeed;
+    });
+  }
+  public double speedMultiplier = .5;
   public void arcadeDrive(double moveSpeed, double rotateSpeed) {
+    if(halfSpeed){
+      speedMultiplier = .75;
+    }else{
+      speedMultiplier = 1;
+    }
     if(!invertedDrive){ //check for invert
-      drive.arcadeDrive(moveSpeed, rotateSpeed); //if no move forward (battery side)
+      drive.arcadeDrive(moveSpeed  * speedMultiplier, rotateSpeed * speedMultiplier); //if no move forward (battery side)
 
     }else{
-      drive.arcadeDrive(moveSpeed, -1*rotateSpeed); //if yes forward becomes back (non-battery becomes forward)
+      drive.arcadeDrive(moveSpeed * speedMultiplier, -1*rotateSpeed  * speedMultiplier); //if yes forward becomes back (non-battery becomes forward)
     }
   }
 
   public void tankDrive(double left, double right){ //controls right and left speeds independantly
     drive.tankDrive(left, right);
+  }
+
+  public CommandBase toggleBrake(){
+    return runOnce(() -> {
+      brakeModeBool = !brakeModeBool;
+    });
   }
 
   double leftSpeed = .40;

@@ -91,7 +91,7 @@ public class Arm extends SubsystemBase {
                         ArmMotor.set(ControlMode.PercentOutput, .3);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
-                    RobotContainer.m_intake.dispense(.8, 2);
+                    RobotContainer.m_intake.dispense(.6, 2);
                 }
             }
         );
@@ -204,9 +204,9 @@ public class Arm extends SubsystemBase {
 
   public void flipLimeServo(){ //rotate limelight servo
     if(isLimeLightFront){ //battery side
-        limelightServo.setAngle(171);
+        limelightServo.setAngle(178);
     }else{ //no-battery side
-        limelightServo.setAngle(0);
+        limelightServo.setAngle(-5);
     }
     isLimeLightFront = !isLimeLightFront; //flip the direction of the limelight
     
@@ -242,6 +242,14 @@ public class Arm extends SubsystemBase {
             ArmMotor.setSelectedSensorPosition(EncoderConstants.FRONT_BOTTOM_COUNT);
         }
     });
+  }
+
+  public void setFrontBottom(){
+    ArmMotor.setSelectedSensorPosition(EncoderConstants.FRONT_BOTTOM_COUNT);
+  }
+
+  public void setBackBottom(){
+    ArmMotor.setSelectedSensorPosition(EncoderConstants.BACK_BOTTOM_COUNT);
   }
 
   public double getLimelightAngle(){

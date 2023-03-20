@@ -23,11 +23,11 @@ public final class Constants {
 
     public static final int FRONT_TOP_COUNT = 13500;
     public static final int FRONT_MIDDLE_COUNT = 17000;
-    public static final int FRONT_BOTTOM_COUNT = 25000; //adjust for zeroing
+    public static final int FRONT_BOTTOM_COUNT = 24436; //adjust for zeroing
     //arm rotation encoder counts
-    public static final int BACK_BOTTOM_COUNT = -25062; //adjust for zeroing
+    public static final int BACK_BOTTOM_COUNT = -24800; //adjust for zeroing
     public static final int BACK_MIDDLE_COUNT = -17000;
-    public static final int BACK_TOP_COUNT = -13208;
+    public static final int BACK_TOP_COUNT = -17000;
     //telescoping arm encoder counts
     public static final int ARM_EXTENDED_COUNT = 0;
     public static final int ARM_UNEXTENDED_COUNT = 0;
@@ -53,7 +53,7 @@ public final class Constants {
   }
   public class ServoPortConstants{
     //SERVOS
-    public static final int LIMELIGHT_SERVO_PORT = 1;
+    public static final int LIMELIGHT_SERVO_PORT = 3;
   }
 
   public class limeLightConstants{
