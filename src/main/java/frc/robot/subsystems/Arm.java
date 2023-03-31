@@ -85,13 +85,13 @@ public class Arm extends SubsystemBase {
                         ArmMotor.set(ControlMode.PercentOutput, -.3);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
-                    RobotContainer.m_intake.dispense(.75, 2);
+                    RobotContainer.m_intake.dispense(.53, 2);
                 }else{ //if back side
                     while(ArmMotor.getSelectedSensorPosition() < EncoderConstants.BACK_MIDDLE_COUNT + 100){
                         ArmMotor.set(ControlMode.PercentOutput, .3);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
-                    RobotContainer.m_intake.dispense(.6, 2);
+                    RobotContainer.m_intake.dispense(.40, 2);
                 }
             }
         );
@@ -102,13 +102,13 @@ public class Arm extends SubsystemBase {
                         ArmMotor.set(ControlMode.PercentOutput, -.3);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
-                    RobotContainer.m_intake.dispense(.8, 1);
+                    RobotContainer.m_intake.dispense(.8, 3);
                 }else{ //if back side
                     while(ArmMotor.getSelectedSensorPosition() < EncoderConstants.BACK_TOP_COUNT + 100){
                         ArmMotor.set(ControlMode.PercentOutput, .4);
                     }
                     ArmMotor.set(ControlMode.PercentOutput, 0);
-                    RobotContainer.m_intake.dispense(.8, 1);
+                    RobotContainer.m_intake.dispense(.8, 3);
                 }
             }
         );
