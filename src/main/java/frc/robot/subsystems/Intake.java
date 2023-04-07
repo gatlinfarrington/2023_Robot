@@ -9,20 +9,36 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.estimator.ExtendedKalmanFilter;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 // import frc.robot.subsystems.Arm.ArmPosition;
 
 public class Intake extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
+  //Spark Max setup
   CANSparkMax intake1 = new CANSparkMax(motorPortConstants.INTAKE_PORT_1, MotorType.kBrushless);
   CANSparkMax intake2 = new CANSparkMax(motorPortConstants.INTAKE_PORT_2, MotorType.kBrushless);
+  //Limit Switch
   DigitalInput intakeLimitSwitch = new DigitalInput(0); //LIMIT SWITCH
   RelativeEncoder intakeEncoder = intake1.getEncoder();
+  //Pneumatic Hub/Compressor Setup
+  PneumaticHub phHub = new PneumaticHub(pneumaticConstants.REV_HUB_PORT);
+  Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
+
+  //Double Solenoid Setup (will experiment with the "DoubleSolenoid" class later)
+  Solenoid m_solenoid = phHub.makeSolenoid(pneumaticConstants.SOLENOID_PORT);
+
+
   public boolean holding = false;
  
   public Intake() {
@@ -30,20 +46,21 @@ public class Intake extends SubsystemBase {
   }
 
   public void run_in(){
-    if(intakeLimitSwitch.get() == true){ //if limit switch is not help
+    if(intakeLimitSwitch.get() == true){ //if limit switch is not held
       holding = false; //we are not holding a cube
       intake1.set(.4); //set intaking speeds
       intake2.set(-.4);
+      setSolenoidState(holding);
+      
     }else{
       if(!holding){ //rumble not working (no rumble motor in our controller)
-        RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1); 
-        RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1);
+        // RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1); 
+        // RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 1);
       }
       intake1.set(0); //stop the intake
       intake2.set(0);
-      RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
-        RobotContainer.driverController.setRumble(RumbleType.kBothRumble, 0);
       holding = true;
+      setSolenoidState(holding);
     }
   }
 
@@ -72,8 +89,13 @@ public class Intake extends SubsystemBase {
   public void resetEncoder(){
     intakeEncoder.setPosition(0);
   }
+  
+  public void setSolenoidState(Boolean state){
+    m_solenoid.set(state);
+    System.out.println("Firing Piston, "  + state);
+  }
 
-
+  
   /**
    * Example command factory method.
    *
