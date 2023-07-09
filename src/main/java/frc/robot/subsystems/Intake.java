@@ -31,12 +31,12 @@ public class Intake extends SubsystemBase {
   //Limit Switch
   DigitalInput intakeLimitSwitch = new DigitalInput(0); //LIMIT SWITCH
   RelativeEncoder intakeEncoder = intake1.getEncoder();
-  //Pneumatic Hub/Compressor Setup
-  PneumaticHub phHub = new PneumaticHub(pneumaticConstants.REV_HUB_PORT);
-  Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
+  // //Pneumatic Hub/Compressor Setup
+  // PneumaticHub phHub = new PneumaticHub(pneumaticConstants.REV_HUB_PORT);
+  // Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
 
-  //Double Solenoid Setup (will experiment with the "DoubleSolenoid" class later)
-  Solenoid m_solenoid = phHub.makeSolenoid(pneumaticConstants.SOLENOID_PORT);
+  // //Double Solenoid Setup (will experiment with the "DoubleSolenoid" class later)
+  // Solenoid m_solenoid = phHub.makeSolenoid(pneumaticConstants.SOLENOID_PORT);
 
 
   public boolean holding = false;
@@ -50,7 +50,7 @@ public class Intake extends SubsystemBase {
       holding = false; //we are not holding a cube
       intake1.set(.4); //set intaking speeds
       intake2.set(-.4);
-      setSolenoidState(holding);
+      // setSolenoidState(holding);
       
     }else{
       if(!holding){ //rumble not working (no rumble motor in our controller)
@@ -60,7 +60,7 @@ public class Intake extends SubsystemBase {
       intake1.set(0); //stop the intake
       intake2.set(0);
       holding = true;
-      setSolenoidState(holding);
+      // setSolenoidState(holding);
     }
   }
 
@@ -90,10 +90,10 @@ public class Intake extends SubsystemBase {
     intakeEncoder.setPosition(0);
   }
   
-  public void setSolenoidState(Boolean state){
-    m_solenoid.set(state);
-    System.out.println("Firing Piston, "  + state);
-  }
+  // public void setSolenoidState(Boolean state){
+  //   m_solenoid.set(state);
+  //   System.out.println("Firing Piston, "  + state);
+  // }
 
   
   /**

@@ -156,7 +156,7 @@ public class Arm extends SubsystemBase {
             ArmMotor.set(ControlMode.PercentOutput, -.3); //set the speed to move back
             return false;
         }else{
-            parallelFlipEnd(); //at teh end of the flip, flip the limelight, pipeline, and direction
+            parallelFlipEnd(); //at the end of the flip, flip the limelight, pipeline, and direction
             ArmMotor.set(ControlMode.PercentOutput, 0); //set the speed to move back
             return true;
         }

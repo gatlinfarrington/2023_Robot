@@ -91,8 +91,8 @@ public class RobotContainer {
 
 
     new JoystickButton(coDriverController, 1).onTrue(m_Drivetrain.halfSpeed()); //Co Drive A //Speed in Half
-    new JoystickButton(coDriverController, 3).onTrue(m_Drivetrain.toggleBrake()); //Co Drive A //Speed in Half
-    new JoystickButton(coDriverController, 2).onTrue(m_Arm.resetEncoder()); //Co Drive B //Reset Arm position
+    new JoystickButton(coDriverController, 2).onTrue(m_Drivetrain.toggleBrake()); //Co Drive B //Speed in Half
+    new JoystickButton(coDriverController, 3).onTrue(m_Arm.resetEncoder()); //Co Drive X //Reset Arm position
     
     new JoystickButton(coDriverController, 5).onTrue(new changePipeline()); //left bumper
     new JoystickButton(coDriverController, 6).onTrue(new flipLimelight()); //right bumper
