@@ -10,6 +10,7 @@ import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveDist;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.TurnAngle;
 import frc.robot.commands.TurnToTarget;
 import frc.robot.commands.changePipeline;
 import frc.robot.commands.flipLimelight;
@@ -17,6 +18,8 @@ import frc.robot.commands.AutoCommands.OneCubeDock;
 import frc.robot.commands.AutoCommands.OneCubeDrive;
 import frc.robot.commands.AutoCommands.OneCubeNoDrive;
 import frc.robot.commands.AutoCommands.OnlyDrive;
+import frc.robot.commands.AutoCommands.ThreeCube;
+import frc.robot.commands.AutoCommands.Turn45;
 import frc.robot.commands.AutoCommands.TwoCube;
 import frc.robot.subsystems.Arm;
 // import frc.robot.subsystems.Arm;
@@ -48,6 +51,7 @@ public class RobotContainer {
   public final static Arm m_Arm = new Arm();
   public static Intake m_intake = new Intake();
   public static Vision m_Vision = new Vision();
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
    public static  XboxController driverController = new XboxController(OperatorConstants.kDriverControllerPort);
    public static  XboxController coDriverController = new XboxController(OperatorConstants.kCoDriverControllerPort);
@@ -89,6 +93,8 @@ public class RobotContainer {
 
     new JoystickButton(driverController, 6).onTrue(m_Drivetrain.invertDrive()); //drive a *flip drive
 
+    new JoystickButton(driverController, 11).onTrue(new TurnAngle(45)); //left trigger
+
 
     new JoystickButton(coDriverController, 1).onTrue(m_Drivetrain.halfSpeed()); //Co Drive A //Speed in Half
     new JoystickButton(coDriverController, 2).onTrue(m_Drivetrain.toggleBrake()); //Co Drive B //Speed in Half
@@ -96,6 +102,7 @@ public class RobotContainer {
     
     new JoystickButton(coDriverController, 5).onTrue(new changePipeline()); //left bumper
     new JoystickButton(coDriverController, 6).onTrue(new flipLimelight()); //right bumper
+    new JoystickButton(coDriverController, 11).onTrue(m_Drivetrain.resetGyro()); //left trigger
 
     // new POVButton(driverController, ).onTrue(m_Arm.setPosition(1));
     // new Trigger(driverController.povUp(null)).onTrue(m_Arm.setPosition(2));
@@ -114,6 +121,10 @@ public class RobotContainer {
     // An example command will be run in autonomous
     if(auto.equals("TwoCube")){
       return new TwoCube();
+    } else if (auto.equals("ThreeCube")){
+      return new ThreeCube();
+    } else if (auto.equals("Turn45")){
+      return new Turn45();
     }else if(auto.equals("OneCubeDrive")){
       return new OneCubeDrive();
     }else if(auto.equals("OneCubeNoDrive")){

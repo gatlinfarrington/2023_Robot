@@ -23,7 +23,7 @@ public final class OneCubeDock extends SequentialCommandGroup {
       RobotContainer.m_Arm.autoNudge(),
       RobotContainer.m_Arm.waitForArm(),
       RobotContainer.m_Arm.setPosition(2),
-      new ParallelCommandGroup(new DriveDist(), new flipArmParallel()),
+      new ParallelCommandGroup(new DriveDist(175), new flipArmParallel()),
       new ParallelCommandGroup(new DriveDistBackHalf())
       // RobotContainer.m_Vision.setToBackPipeline(),     
       // new TurnToTarget(),

@@ -21,7 +21,7 @@ public final class OneCubeDrive extends SequentialCommandGroup {
       RobotContainer.m_Arm.autoNudge(),
       RobotContainer.m_Arm.waitForArm(),
       RobotContainer.m_Arm.setPosition(2),
-      new ParallelCommandGroup(new DriveDist(), RobotContainer.m_Arm.flip())
+      new ParallelCommandGroup(new DriveDist(175), RobotContainer.m_Arm.flip())
       // new ParallelCommandGroup(new DriveDistBack(), RobotContainer.m_Arm.flip()),
       // RobotContainer.m_Vision.setToBackPipeline(),     
       // new TurnToTarget(),

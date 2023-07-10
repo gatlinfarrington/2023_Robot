@@ -45,7 +45,9 @@ public class Robot extends TimedRobot {
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+   private static final String kThreeCubeAuto = "ThreeCube";
    private static final String kTwoCubeAuto = "TwoCube";
+   private static final String kTurn45 = "Turn45";
    private static final String kOneCubeDrive = "OneCubeDrive";
    private static final String kOneCubeNoDrive = "OneCubeNoDrive";
    private static final String kDriveOnly = "Drive";
@@ -67,6 +69,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     RobotContainer.m_Arm.resetEncoder();
     m_chooser.setDefaultOption("Two Cube", kTwoCubeAuto);
+    m_chooser.addOption("Three Cube", kThreeCubeAuto);
+    m_chooser.addOption("Turn 45", kTurn45);
     m_chooser.addOption("One Cube Drive", kOneCubeDrive);
     m_chooser.addOption("One Cube *no* Drive", kOneCubeNoDrive);
     m_chooser.addOption("Only Drive", kDriveOnly);
@@ -138,6 +142,10 @@ public class Robot extends TimedRobot {
       RobotContainer.m_Arm.setBackBottom();
     }else if(m_chooser.getSelected().equals("OneCubeDrive")){
       RobotContainer.m_Arm.setFrontBottom();
+    }else if(m_chooser.getSelected().equals("ThreeCube")){
+        RobotContainer.m_Arm.setBackBottom();
+    }else if (m_chooser.getSelected().equals("Turn45")){
+      RobotContainer.m_Arm.setBackBottom();
     }else if(m_chooser.getSelected().equals("OneCubeNoDrive")){
       RobotContainer.m_Arm.setBackBottom();
     }else if(m_chooser.getSelected().equals("OneCubeDock")){
@@ -152,14 +160,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    // System.out.println(RobotContainer.m_Arm.getEncoderPosition());
-    if(RobotContainer.m_Drivetrain.brakeModeBool){
-      RobotContainer.m_Drivetrain.setBrakeMode();
-    }else{
-      RobotContainer.m_Drivetrain.setCoastMode();
-    }
-  }
+  public void teleopPeriodic() {}
   
 
   @Override

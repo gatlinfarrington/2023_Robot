@@ -11,9 +11,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveDistBack extends CommandBase {
   boolean done;
-  public DriveDistBack() {
+  int in;
+
+  public DriveDistBack(int inches) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
+    in = inches;
   }
 
   // Called just before this Command runs the first time
@@ -25,7 +28,7 @@ public class DriveDistBack extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    done = RobotContainer.m_Drivetrain.driveDistanceBack(165);
+    done = RobotContainer.m_Drivetrain.driveDistanceBack(in);
   }
 
   // Called once the command ends or is interrupted.

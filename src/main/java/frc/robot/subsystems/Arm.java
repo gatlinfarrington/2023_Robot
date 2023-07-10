@@ -185,7 +185,7 @@ public class Arm extends SubsystemBase {
 
   public CommandBase autoNudge(){ //nudges the arm forward for the beginning of a match
     return runOnce(()->{ //move the arm to the down position in the back (non-battery side)?
-        while(ArmMotor.getSelectedSensorPosition() > -7000){
+        while(ArmMotor.getSelectedSensorPosition() > EncoderConstants.BACK_TOP_COUNT /*+ 5000*/){
             ArmMotor.set(ControlMode.PercentOutput, -.25);
         }
         ArmMotor.set(ControlMode.PercentOutput, 0);
@@ -198,6 +198,16 @@ public class Arm extends SubsystemBase {
         while(Math.abs(ArmMotor.getSelectedSensorPosition()) < 20000){
             //do nothing
         }
+    });
+  }
+
+  public CommandBase waitForArmThreeCube(){ //do nothing until the arm is at the bottom, only used in auto
+    return runOnce(()->{
+        while(Math.abs(ArmMotor.getSelectedSensorPosition()) < Math.abs(20000/*EncoderConstants.BACK_MIDDLE_COUNT*/)){
+            //do nothing
+        }
+        
+
     });
   }
 

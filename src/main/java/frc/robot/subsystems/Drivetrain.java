@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.SPI;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -34,7 +36,9 @@ public class Drivetrain extends SubsystemBase {
   
   boolean invertedDrive = false; //togleable invert front of robot
   boolean halfSpeed = true;
-  public boolean brakeModeBool = false;
+  public boolean brakeModeBool = true;
+
+  AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
   public Drivetrain() {
     
@@ -66,6 +70,10 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  public void DriveTank(double left, double right) {
+    drive.tankDrive(left, right);
+  }
+
   public void tankDrive(double left, double right){ //controls right and left speeds independantly
     drive.tankDrive(left, right);
   }
@@ -73,6 +81,11 @@ public class Drivetrain extends SubsystemBase {
   public CommandBase toggleBrake(){
     return runOnce(() -> {
       brakeModeBool = !brakeModeBool;
+      if (RobotContainer.m_Drivetrain.brakeModeBool) {
+        RobotContainer.m_Drivetrain.setBrakeMode();
+      } else {
+        RobotContainer.m_Drivetrain.setCoastMode();
+      }
     });
   }
 
@@ -131,6 +144,24 @@ public class Drivetrain extends SubsystemBase {
         drive.tankDrive(0, 0);
         return true;
       }
+  }
+
+  public double getRobotPitch() {
+    return ahrs.getAngle();
+  }
+
+  public double getRobotRoll() {
+    return ahrs.getRoll();
+  }
+
+  public double getRobotYaw() {
+    return ahrs.getPitch();
+  }
+
+  public CommandBase resetGyro() {
+    return runOnce(() -> {
+      ahrs.reset();
+    });  
   }
 
   public void initializeEncoders(){
