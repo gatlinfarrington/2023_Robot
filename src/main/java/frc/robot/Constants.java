@@ -38,6 +38,9 @@ public final class Constants {
   //intake speed counts
   public static final int INTAKE_SPEED = 0;
   public static final int OUTTAKE_SPEED = 0;
+  
+  //drivetrain speed constants
+  public static final double DRIVE_SPEED = 0.4;
 
   public class motorPortConstants{
     //MOTOR PORTS

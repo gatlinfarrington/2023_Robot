@@ -11,13 +11,15 @@ import frc.robot.RobotContainer;
 public class TurnAngle extends CommandBase {
   double ang;
   public PIDController pid;
+  boolean done;
 
   /** Creates a new TurnAngle. */
   public TurnAngle(double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
     ang = angle;
-    pid = new PIDController(0.001, 0.00, 0.000); //TUNE 
+    pid = new PIDController(0.004, 0.00, 0.002); //TUNE 
+    done = false;
   }
 
   // Called when the command is initially scheduled.
@@ -27,6 +29,7 @@ public class TurnAngle extends CommandBase {
     pid.setTolerance(0, 0.1); //TUNE
     pid.setSetpoint(ang);
     pid.reset();
+    
 
     // pid.setP(0.0055);
     // pid.setI(0.0013);
@@ -36,10 +39,16 @@ public class TurnAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*double left_command = pid.calculate(RobotContainer.m_Drivetrain.getRobotYaw());
+    //System.out.println("Turn Command Called " + ang);
+    double left_command = pid.calculate(RobotContainer.m_Drivetrain.getRobotYaw());
     double right_command = pid.calculate(RobotContainer.m_Drivetrain.getRobotYaw());
-    RobotContainer.m_Drivetrain.DriveTank(left_command, right_command*-1);*/
-    new DriveDist(10);
+    RobotContainer.m_Drivetrain.DriveTank(left_command * -1, right_command * -1);
+
+    if (ang - Math.abs(RobotContainer.m_Drivetrain.getRobotYaw()) < 10) {
+      pid.setI(0.002);
+    }
+
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -51,6 +60,6 @@ public class TurnAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return done;
   }
 }

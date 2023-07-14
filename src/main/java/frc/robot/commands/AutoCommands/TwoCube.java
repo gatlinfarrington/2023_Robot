@@ -5,6 +5,7 @@
 package frc.robot.commands.AutoCommands;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveDist;
 import frc.robot.commands.DriveDistBack;
@@ -24,7 +25,7 @@ public final class TwoCube extends SequentialCommandGroup {
       RobotContainer.m_Arm.autoNudge(),
       RobotContainer.m_Arm.waitForArm(),
       RobotContainer.m_Arm.setPosition(1),
-      new ParallelCommandGroup(new DriveDist(175), new flipArmParallel()), //try to see if this will flip the arm and drive at the same time. if not delete this line and uncomment below.
+      new ParallelCommandGroup(new DriveDist(175, Constants.DRIVE_SPEED), new flipArmParallel()), //try to see if this will flip the arm and drive at the same time. if not delete this line and uncomment below.
       // new ParallelCommandGroup(new DriveDist()) //try to see if this will flip the arm and drive at the same time. if no
       // new ParallelCommandGroup(new DriveDist(), RobotContainer.m_Arm.flip()),
       new ParallelCommandGroup(new DriveDistBack(165), new flipArmParallel()),

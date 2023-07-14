@@ -88,12 +88,13 @@ public class RobotContainer {
     new JoystickButton(driverController, 3).onTrue(m_Arm.setPosition(2)); //x *High Goal
     new JoystickButton(driverController, 4).onTrue(m_Arm.flip()); //y *flip arm
 
-    new JoystickButton(driverController, 5).onTrue(new TurnToTarget()); //left bumprt *Limelight
+    new JoystickButton(driverController, 7).onTrue(new TurnToTarget()); //left bumprt *Limelight
     // new JoystickButton(driverController, 6).onTrue(new DriveDist()); //right bumprt
 
     new JoystickButton(driverController, 6).onTrue(m_Drivetrain.invertDrive()); //drive a *flip drive
 
-    new JoystickButton(driverController, 11).onTrue(new TurnAngle(45)); //left trigger
+    new JoystickButton(driverController,11).onTrue(new TurnAngle(45)); //left bumper
+    new JoystickButton(driverController, 5).onTrue(new DriveDist(20, Constants.DRIVE_SPEED)); //left trigger
 
 
     new JoystickButton(coDriverController, 1).onTrue(m_Drivetrain.halfSpeed()); //Co Drive A //Speed in Half
@@ -102,7 +103,7 @@ public class RobotContainer {
     
     new JoystickButton(coDriverController, 5).onTrue(new changePipeline()); //left bumper
     new JoystickButton(coDriverController, 6).onTrue(new flipLimelight()); //right bumper
-    new JoystickButton(coDriverController, 11).onTrue(m_Drivetrain.resetGyro()); //left trigger
+    new JoystickButton(coDriverController, 4).onTrue(m_Drivetrain.resetGyro()); //left trigger
 
     // new POVButton(driverController, ).onTrue(m_Arm.setPosition(1));
     // new Trigger(driverController.povUp(null)).onTrue(m_Arm.setPosition(2));

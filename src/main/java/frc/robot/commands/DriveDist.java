@@ -9,32 +9,41 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 public class DriveDist extends CommandBase {
-  double in;
+  double inches;
+  double speed;
+  boolean done;
   public PIDController pid;
 
   /** Creates a new TurnAngle. */
-  public DriveDist(double inches) {
+  public DriveDist(double inches, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
-    in = -1*inches*2048*6/8/1.8; //constant found from encodercount*wheel Diamater*gear ratio * inches
-    pid = new PIDController(0, 0, 0); //TUNE 
+    inches = -1*this.inches*2048*6/8/1.8; //constant found from encodercount*wheel Diamater*gear ratio * inches
+    speed = this.speed;
+    done = false;
+    pid = new PIDController(0.01, 0, 0); //TUNE 
   }
 
-  // Called when the command is initially scheduled.
+  // Called when the command is i%itially scheduled.
   @Override
   public void initialize() {
     pid.enableContinuousInput(-180.0f,  180.0f); //TUNE
     pid.setTolerance(0, 0.1); //TUNE
-    pid.setSetpoint(in);
+    pid.setSetpoint(inches);
     pid.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left_command = pid.calculate(RobotContainer.m_Drivetrain.getRobotYaw());
-    double right_command = pid.calculate(RobotContainer.m_Drivetrain.getRobotYaw());
-    RobotContainer.m_Drivetrain.DriveTank(left_command, right_command*-1);
+    if (RobotContainer.m_Drivetrain.getLeftEncoder() >= inches
+    && RobotContainer.m_Drivetrain.getRightEncoder() >= inches) {
+      done = true;
+    }
+    RobotContainer.m_Drivetrain.DriveTank(speed, speed);
+    // double left_command = pid.calculate(RobotContainer.m_Drivetrain.getLeftEncoder());
+    // double right_command = pid.calculate(RobotContainer.m_Drivetrain.getRightEncoder());
+    // RobotContainer.m_Drivetrain.DriveTank(left_command, right_command);
   }
 
   // Called once the command ends or is interrupted.
@@ -46,7 +55,7 @@ public class DriveDist extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return done;
   }
 }
 

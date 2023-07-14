@@ -20,7 +20,7 @@ public class Turn45 extends SequentialCommandGroup {
       // RobotContainer.m_Drivetrain.resetGyro(),
       // RobotContainer.m_Arm.autoNudge(),
       RobotContainer.m_Arm.waitForArmThreeCube(),
-      new TurnAngle(45)
+      new TurnAngle(45).withTimeout(5)
     );
   }
 }

@@ -160,7 +160,11 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    System.out.println("Pitch: " + RobotContainer.m_Drivetrain.getRobotPitch());
+    System.out.println("Yaw: " + RobotContainer.m_Drivetrain.getRobotYaw());
+    System.out.println("Roll: " + RobotContainer.m_Drivetrain.getRobotRoll());
+  }
   
 
   @Override
@@ -178,7 +182,10 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     // RobotContainer.m_Drivetrain.printVals();
-    System.out.println(RobotContainer.m_Arm.getEncoderPosition());
+    // // System.out.println(RobotContainer.m_Arm.getEncoderPosition());
+    // System.out.println("Pitch: " + RobotContainer.m_Drivetrain.getRobotPitch());
+    // System.out.println("Yaw: " + RobotContainer.m_Drivetrain.getRobotYaw());
+    // System.out.println("Roll: " + RobotContainer.m_Drivetrain.getRobotRoll());
     // System.out.println("Limelgiht angle " + RobotContainer.m_Arm.getLimelightAngle());
     
   }

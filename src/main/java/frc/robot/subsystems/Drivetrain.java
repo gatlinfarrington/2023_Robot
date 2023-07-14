@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -38,16 +39,18 @@ public class Drivetrain extends SubsystemBase {
   boolean halfSpeed = true;
   public boolean brakeModeBool = true;
 
-  AHRS ahrs = new AHRS(SPI.Port.kMXP);
+  AHRS ahrs;
 
   public Drivetrain() {
-    
+
+    ahrs = new AHRS(SerialPort.Port.kUSB);
   }
 
   public CommandBase invertDrive(){ //swap front and back of robot
     return runOnce(()->{
       invertedDrive = !invertedDrive;
     });
+
   }
 
   public CommandBase halfSpeed(){
@@ -87,6 +90,14 @@ public class Drivetrain extends SubsystemBase {
         RobotContainer.m_Drivetrain.setCoastMode();
       }
     });
+  }
+
+  public double getLeftEncoder () {
+    return left1.getSelectedSensorPosition();
+  }
+
+  public double getRightEncoder () {
+    return right1.getSelectedSensorPosition();
   }
 
   double leftSpeed = .40;
@@ -146,8 +157,12 @@ public class Drivetrain extends SubsystemBase {
       }
   }
 
+  public void zeroGyro(){
+    // ahrs.zeroYaw();
+    // ahrs.set
+  }
   public double getRobotPitch() {
-    return ahrs.getAngle();
+    return ahrs.getPitch();
   }
 
   public double getRobotRoll() {
@@ -155,7 +170,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getRobotYaw() {
-    return ahrs.getPitch();
+    return ahrs.getAngle();
   }
 
   public CommandBase resetGyro() {
