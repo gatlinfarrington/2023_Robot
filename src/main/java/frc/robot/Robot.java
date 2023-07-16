@@ -98,6 +98,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     RobotContainer.m_Arm.zeroEncoder();
+    
+    RobotContainer.m_Drivetrain.setBrakeMode();
   }
 
   @Override
@@ -110,6 +112,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     System.out.println("Selected Auto: " + m_chooser.getSelected());
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(m_chooser.getSelected());
+    RobotContainer.m_Drivetrain.setBrakeMode();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -161,9 +164,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    System.out.println("Pitch: " + RobotContainer.m_Drivetrain.getRobotPitch());
-    System.out.println("Yaw: " + RobotContainer.m_Drivetrain.getRobotYaw());
-    System.out.println("Roll: " + RobotContainer.m_Drivetrain.getRobotRoll());
+    // System.out.println("Pitch: " + RobotContainer.m_Drivetrain.getRobotPitch());
+    // System.out.println("Yaw: " + RobotContainer.m_Drivetrain.getRobotYaw());
+    // System.out.println("Roll: " + RobotContainer.m_Drivetrain.getRobotRoll());
   }
   
 

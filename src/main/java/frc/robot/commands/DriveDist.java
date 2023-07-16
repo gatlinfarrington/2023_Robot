@@ -6,44 +6,52 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DriveDist extends CommandBase {
   double inches;
   double speed;
   boolean done;
+  double angle;
   public PIDController pid;
 
   /** Creates a new TurnAngle. */
-  public DriveDist(double inches, double speed) {
+  public DriveDist(double ang, double spd, double kp, double ki, double kd, double inches) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
-    inches = -1*this.inches*2048*6/8/1.8; //constant found from encodercount*wheel Diamater*gear ratio * inches
-    speed = this.speed;
+    RobotContainer.m_Drivetrain.resetLeftEncoder();
+    RobotContainer.m_Drivetrain.resetRightEncoder();
+    RobotContainer.m_Drivetrain.resetGyro();
+    inches = this.inches*2048*8/7.5; //constant found from encodercount*wheel Diamater*gear ratio * inches
+    speed = spd;
     done = false;
-    pid = new PIDController(0.01, 0, 0); //TUNE 
+    angle = ang;
+    pid = new PIDController(kp, ki, kd); //TUNE 
+    
   }
 
-  // Called when the command is i%itially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.m_Drivetrain.resetGyro();
     pid.enableContinuousInput(-180.0f,  180.0f); //TUNE
     pid.setTolerance(0, 0.1); //TUNE
-    pid.setSetpoint(inches);
+    pid.setSetpoint(angle);
     pid.reset();
+    RobotContainer.m_Drivetrain.resetGyro();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.m_Drivetrain.getLeftEncoder() >= inches
-    && RobotContainer.m_Drivetrain.getRightEncoder() >= inches) {
-      done = true;
-    }
-    RobotContainer.m_Drivetrain.DriveTank(speed, speed);
-    // double left_command = pid.calculate(RobotContainer.m_Drivetrain.getLeftEncoder());
-    // double right_command = pid.calculate(RobotContainer.m_Drivetrain.getRightEncoder());
-    // RobotContainer.m_Drivetrain.DriveTank(left_command, right_command);
+    double left_command = -1 * pid.calculate(RobotContainer.m_Drivetrain.getRobotYaw());
+    double right_command = pid.calculate(RobotContainer.m_Drivetrain.getRobotYaw());
+    System.out.println("Left: " + left_command);
+    System.out.println("Right: " + right_command);
+    System.out.println("Error: " + pid.getPositionError());
+
+    RobotContainer.m_Drivetrain.DriveTank((speed + left_command), (speed + right_command) * -1);
   }
 
   // Called once the command ends or is interrupted.
@@ -55,7 +63,7 @@ public class DriveDist extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return done;
+    return ((RobotContainer.m_Drivetrain.getLeftEncoder() - RobotContainer.m_Drivetrain.getRightEncoder())/2 > inches);
   }
 }
 

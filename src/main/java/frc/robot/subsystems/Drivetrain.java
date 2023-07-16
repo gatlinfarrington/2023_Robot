@@ -100,6 +100,16 @@ public class Drivetrain extends SubsystemBase {
     return right1.getSelectedSensorPosition();
   }
 
+  public void resetLeftEncoder () {
+    left1.setSelectedSensorPosition(0);
+    left2.setSelectedSensorPosition(0);
+  }
+
+  public void resetRightEncoder () {
+    right1.setSelectedSensorPosition(0);
+    right2.setSelectedSensorPosition(0);
+  }
+
   double leftSpeed = .40;
   double rightSpeed = .40;
   public boolean driveDistance(int inches){

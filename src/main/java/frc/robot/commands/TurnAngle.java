@@ -18,13 +18,14 @@ public class TurnAngle extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
     ang = angle;
-    pid = new PIDController(0.004, 0.00, 0.002); //TUNE 
+    pid = new PIDController(0.02, 0.002, 0.003); //TUNE 
     done = false;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.m_Drivetrain.resetGyro();
     pid.enableContinuousInput(-180.0f,  180.0f); //TUNE
     pid.setTolerance(0, 0.1); //TUNE
     pid.setSetpoint(ang);

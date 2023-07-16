@@ -7,6 +7,7 @@ package frc.robot.commands.AutoCommands;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.PidConstants;
 import frc.robot.commands.DriveDist;
 import frc.robot.commands.DriveDistBackHalf;
 import frc.robot.commands.ArmCommands.flipArmParallel;
@@ -24,7 +25,7 @@ public final class OneCubeDock extends SequentialCommandGroup {
       RobotContainer.m_Arm.autoNudge(),
       RobotContainer.m_Arm.waitForArm(),
       RobotContainer.m_Arm.setPosition(2),
-      new ParallelCommandGroup(new DriveDist(175, Constants.DRIVE_SPEED), new flipArmParallel()),
+      new ParallelCommandGroup(new DriveDist(0, -PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE, 200), new flipArmParallel()),
       new ParallelCommandGroup(new DriveDistBackHalf())
       // RobotContainer.m_Vision.setToBackPipeline(),     
       // new TurnToTarget(),
