@@ -42,7 +42,8 @@ public class Intake extends SubsystemBase {
   public boolean holding = false;
  
   public Intake() {
-    
+    intake1.setInverted(true);
+    intake2.setInverted(true);
   }
 
   public void run_in(){
