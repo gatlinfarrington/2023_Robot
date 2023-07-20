@@ -7,6 +7,7 @@ package frc.robot.commands.AutoCommands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.PidConstants;
 import frc.robot.commands.DriveDist;
@@ -28,6 +29,8 @@ public class ThreeCube extends SequentialCommandGroup {
       RobotContainer.m_Arm.waitForArmThreeCube(),
       RobotContainer.m_Arm.setPosition(2),
       RobotContainer.m_Drivetrain.resetGyro(),
+      RobotContainer.m_Drivetrain.resetLeftEncoder(),
+      RobotContainer.m_Drivetrain.resetRightEncoder(),
       new ParallelCommandGroup(new DriveDist(0, -PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE, 200), new flipArmParallel()), //TUNE
       new ParallelCommandGroup(new DriveDist(0, PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE, 200), new flipArmParallel()), //TUNE
       RobotContainer.m_Arm.setPosition(2),

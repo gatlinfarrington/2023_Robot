@@ -18,14 +18,13 @@ public class DriveDist extends CommandBase {
 
   /** Creates a new TurnAngle. */
   public DriveDist(double ang, double spd, double kp, double ki, double kd, double inches) {
-    // Use addRequirements() here to declare subsystem dependencies.
+    // Use a%ddRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
     RobotContainer.m_Drivetrain.resetLeftEncoder();
     RobotContainer.m_Drivetrain.resetRightEncoder();
     RobotContainer.m_Drivetrain.resetGyro();
-    inches = this.inches*2048*8/7.5; //constant found from encodercount*wheel Diamater*gear ratio * inches
+    inches = (this.inches*2048*8)/7.5; //constant found from encodercount*wheel Diamater*gear ratio * inches
     speed = spd;
-    done = false;
     angle = ang;
     pid = new PIDController(kp, ki, kd); //TUNE 
     
@@ -63,7 +62,7 @@ public class DriveDist extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ((RobotContainer.m_Drivetrain.getLeftEncoder() - RobotContainer.m_Drivetrain.getRightEncoder())/2 > inches);
+    return (((RobotContainer.m_Drivetrain.getLeftEncoder() - RobotContainer.m_Drivetrain.getRightEncoder())/2) > inches);
   }
 }
 
