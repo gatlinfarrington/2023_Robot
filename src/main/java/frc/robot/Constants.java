@@ -40,13 +40,13 @@ public final class Constants {
   public static final int OUTTAKE_SPEED = 0;
   
   public class PidConstants {
-    public static final double DRIVE_SPEED = 0.5;
-    public static final double kp_DRIVE = 0.005;
+    public static final double DRIVE_SPEED = 0.6;
+    public static final double kp_DRIVE = 0.003;
     public static final double ki_DRIVE = 0.00;
-    public static final double kd_DRIVE = 0.004;
-    public static final double kp_TURN = 0.003;
+    public static final double kd_DRIVE = 0.001;
+    public static final double kp_TURN = 0.03;
     public static final double ki_TURN = 0.00;
-    public static final double kd_TURN = 0.001;
+    public static final double kd_TURN = 0.005;
   }
 
   public class motorPortConstants{

@@ -31,15 +31,13 @@ public class ThreeCube extends SequentialCommandGroup {
       RobotContainer.m_Drivetrain.resetGyro(),
       RobotContainer.m_Drivetrain.resetLeftEncoder(),
       RobotContainer.m_Drivetrain.resetRightEncoder(),
-      new ParallelCommandGroup(new DriveDist(0, -PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE, 200), new flipArmParallel()), //TUNE
-      new ParallelCommandGroup(new DriveDist(0, PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE, 200), new flipArmParallel()), //TUNE
+      new ParallelCommandGroup(new DriveDist(0, -PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE).withTimeout(2.4), new flipArmParallel()), //TUNE
+      new ParallelCommandGroup(new DriveDist(0, PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE).withTimeout(2.2), new flipArmParallel()), //TUNE
       RobotContainer.m_Arm.setPosition(2),
-      new ParallelCommandGroup(new DriveDist(0, -PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE, 200), new flipArmParallel()),
-      // new TurnAngle(45).withTimeout(2), //TUNE
-      new DriveDist(38, -PidConstants.DRIVE_SPEED, PidConstants.kp_TURN, PidConstants.ki_TURN, PidConstants.kd_TURN, 200),
-      new DriveDist(38, PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE, 200),
-      // new TurnAngle(0).withTimeout(1.5), //TUNE
-      new ParallelCommandGroup(new DriveDist(0, PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE, 200), new flipArmParallel()), //TUNE
+      new ParallelCommandGroup(new DriveDist(0, -PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE).withTimeout(1.9), new flipArmParallel()),
+      new DriveDist(55, -PidConstants.DRIVE_SPEED, PidConstants.kp_TURN, PidConstants.ki_TURN, PidConstants.kd_TURN).withTimeout(1.5),
+      new DriveDist(55, PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE).withTimeout(1.3),
+      new ParallelCommandGroup(new DriveDist(0, PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVE, PidConstants.ki_DRIVE, PidConstants.kd_DRIVE).withTimeout(1.6), new flipArmParallel()), //TUNE
       RobotContainer.m_Arm.setPosition(3)
 
     );
