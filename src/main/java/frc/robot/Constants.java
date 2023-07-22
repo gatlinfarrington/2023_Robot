@@ -44,9 +44,9 @@ public final class Constants {
     public static final double kp_DRIVE = 0.003;
     public static final double ki_DRIVE = 0.00;
     public static final double kd_DRIVE = 0.001;
-    public static final double kp_TURN = 0.03;
+    public static final double kp_TURN = 0.035;
     public static final double ki_TURN = 0.00;
-    public static final double kd_TURN = 0.005;
+    public static final double kd_TURN = 0.0065;
   }
 
   public class motorPortConstants{

@@ -95,7 +95,7 @@ public class Arm extends SubsystemBase {
                 }
             }
         );
-    }else if(position == 2){ //HIGH
+    } else if(position == 2){ //HIGH
         return runOnce(() -> {
             if(ArmMotor.getSelectedSensorPosition() > 0){ //if front side
                     while(ArmMotor.getSelectedSensorPosition() > EncoderConstants.FRONT_TOP_COUNT - 100){
@@ -112,7 +112,16 @@ public class Arm extends SubsystemBase {
                 }
             }
         );
-    }else{ //LOW
+    } else if(position == 5){ //HIGH
+      return runOnce(() -> {
+          
+          while(ArmMotor.getSelectedSensorPosition() < EncoderConstants.BACK_TOP_COUNT){
+              ArmMotor.set(ControlMode.PercentOutput, .4);
+          }
+          ArmMotor.set(ControlMode.PercentOutput, 0);
+          RobotContainer.m_intake.dispense(.85, 3);
+        });
+    } else{ //LOW
         return runOnce(() -> { //doesn't matter if front or back side.
            RobotContainer.m_intake.dispense(.5, 3.5);
          });
@@ -201,9 +210,19 @@ public class Arm extends SubsystemBase {
     });
   }
 
+  public CommandBase autoNudgeThreeCube(){ //nudges the arm forward for the beginning of a match
+    return runOnce(()->{ //move the arm to the down position in the back (non-battery side)?
+        while(ArmMotor.getSelectedSensorPosition() > EncoderConstants.BACK_TOP_COUNT + 7500){
+            ArmMotor.set(ControlMode.PercentOutput, -.22);
+        }
+        ArmMotor.set(ControlMode.PercentOutput, 0);
+        currentPosition = ArmPosition.BACK;
+    });
+  }
+
   public CommandBase waitForArmThreeCube(){ //do nothing until the arm is at the bottom, only used in auto
     return runOnce(()->{
-        while(Math.abs(ArmMotor.getSelectedSensorPosition()) < Math.abs(20000/*EncoderConstants.BACK_MIDDLE_COUNT*/)){
+        while(Math.abs(ArmMotor.getSelectedSensorPosition()) < Math.abs(EncoderConstants.BACK_BOTTOM_COUNT + 2000)){
             //do nothing
         }
         

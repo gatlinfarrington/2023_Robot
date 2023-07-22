@@ -18,9 +18,7 @@ public class DriveDist extends CommandBase {
   public DriveDist(double ang, double spd, double kp, double ki, double kd) {
     // Use a%ddRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_Drivetrain);
-    RobotContainer.m_Drivetrain.resetLeftEncoder();
-    RobotContainer.m_Drivetrain.resetRightEncoder();
-    RobotContainer.m_Drivetrain.resetGyro();
+    // RobotContainer.m_Drivetrain.resetGyro();
     speed = spd;
     angle = ang;
     pid = new PIDController(kp, ki, kd); //TUNE 
