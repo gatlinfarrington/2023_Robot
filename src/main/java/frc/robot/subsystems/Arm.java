@@ -222,7 +222,7 @@ public class Arm extends SubsystemBase {
 
   public CommandBase waitForArmThreeCube(){ //do nothing until the arm is at the bottom, only used in auto
     return runOnce(()->{
-        while(Math.abs(ArmMotor.getSelectedSensorPosition()) < Math.abs(EncoderConstants.BACK_BOTTOM_COUNT + 2000)){
+        while(Math.abs(ArmMotor.getSelectedSensorPosition()) < Math.abs(EncoderConstants.BACK_BOTTOM_COUNT + 3000)){
             //do nothing
         }
         

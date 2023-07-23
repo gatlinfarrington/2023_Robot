@@ -87,10 +87,10 @@ public class RobotContainer {
     new JoystickButton(driverController, 1).onTrue(m_Arm.setPosition(3)); //a *Low Goal
     new JoystickButton(driverController, 2).onTrue(m_Arm.setPosition(1)); //b *Middle Goal
     new JoystickButton(driverController, 3).onTrue(m_Arm.setPosition(2)); //x *High Goal
-    new JoystickButton(driverController, 4).onTrue(m_Arm.flip()); //y *flip arm
+    new JoystickButton(driverController, 11).onTrue(m_Arm.flip()); //y *flip arm
 
     new JoystickButton(driverController, 7).onTrue(new TurnToTarget()); //left bumprt *Limelight
-    new JoystickButton(driverController, 11).onTrue(m_Drivetrain.resetGyro()); //b
+    new JoystickButton(driverController, 4).onTrue(m_Drivetrain.resetGyro()); //b
 
     // new JoystickButton(driverController, 6).onTrue(new DriveDist()); //right bumper
 

@@ -44,6 +44,7 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
 
     ahrs = new AHRS(SerialPort.Port.kUSB);
+    // left1.setSafetyEnabled(true);
   }
 
   public CommandBase invertDrive(){ //swap front and back of robot
