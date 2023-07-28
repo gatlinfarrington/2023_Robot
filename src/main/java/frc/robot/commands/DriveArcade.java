@@ -23,8 +23,8 @@ public class DriveArcade extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    double rotateSpeed = -RobotContainer.driverController.getLeftY();
-    double moveSpeed = RobotContainer.driverController.getRightX();
+    double rotateSpeed = -RobotContainer.driverController.getLeftY() * 0.5;
+    double moveSpeed = RobotContainer.driverController.getRightX() * 0.5;
     
     RobotContainer.m_Drivetrain.arcadeDrive(moveSpeed, rotateSpeed);
   }

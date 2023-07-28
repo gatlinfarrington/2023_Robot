@@ -112,14 +112,10 @@ public class Arm extends SubsystemBase {
                 }
             }
         );
-    } else if(position == 5){ //HIGH
+    } else if(position == 5){ //Low + stop intake
       return runOnce(() -> {
-          
-          while(ArmMotor.getSelectedSensorPosition() < EncoderConstants.BACK_TOP_COUNT){
-              ArmMotor.set(ControlMode.PercentOutput, .4);
-          }
-          ArmMotor.set(ControlMode.PercentOutput, 0);
-          RobotContainer.m_intake.dispense(.85, 3);
+        RobotContainer.m_intake.dispense(.5, 3.5);
+        RobotContainer.m_intake.stopIntake();
         });
     } else{ //LOW
         return runOnce(() -> { //doesn't matter if front or back side.

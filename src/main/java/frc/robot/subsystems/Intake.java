@@ -74,6 +74,18 @@ public class Intake extends SubsystemBase {
     intake2.set(0);
   }
 
+  public void stopIntake() {
+      intake1.set(0);
+      intake2.set(0);
+  }
+
+  public CommandBase startIntake() {
+    return runOnce( () -> {
+      intake1.set(0.4);
+      intake2.set(-0.4);
+    });
+  }
+
   public void dispense(double speed, double rotations){ //dispense at a speed and certain number of rotations
     System.out.println("DISPENSE!!!!");
     intakeEncoder.setPosition(0);

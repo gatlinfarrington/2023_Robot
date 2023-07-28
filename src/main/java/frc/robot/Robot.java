@@ -45,7 +45,8 @@ public class Robot extends TimedRobot {
   
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-   private static final String kThreeCubeAuto = "ThreeCube";
+   private static final String kThreeCubeLeftAuto = "ThreeCubeLeft";
+   private static final String kThreeCubeRightAuto = "ThreeCubeRight";
    private static final String kTwoCubeAuto = "TwoCube";
    private static final String kTurn45 = "Turn45";
    private static final String kOneCubeDrive = "OneCubeDrive";
@@ -69,7 +70,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     RobotContainer.m_Arm.resetEncoder();
     m_chooser.setDefaultOption("Two Cube", kTwoCubeAuto);
-    m_chooser.addOption("Three Cube", kThreeCubeAuto);
+    m_chooser.addOption("Three Cube Left", kThreeCubeLeftAuto);
+    m_chooser.addOption("Three Cube Right", kThreeCubeRightAuto);
     m_chooser.addOption("Turn 45", kTurn45);
     m_chooser.addOption("One Cube Drive", kOneCubeDrive);
     m_chooser.addOption("One Cube *no* Drive", kOneCubeNoDrive);
@@ -145,15 +147,17 @@ public class Robot extends TimedRobot {
       RobotContainer.m_Arm.setBackBottom();
     }else if(m_chooser.getSelected().equals("OneCubeDrive")){
       RobotContainer.m_Arm.setFrontBottom();
-    }else if(m_chooser.getSelected().equals("ThreeCube")){
+    }else if(m_chooser.getSelected().equals("ThreeCubeLeft")){
         RobotContainer.m_Arm.setBackBottom();
-    }else if (m_chooser.getSelected().equals("Turn45")){
+      }else if(m_chooser.getSelected().equals("ThreeCubeRight")){
+          RobotContainer.m_Arm.setBackBottom();
+    } else if (m_chooser.getSelected().equals("Turn45")){
       RobotContainer.m_Arm.setBackBottom();
-    }else if(m_chooser.getSelected().equals("OneCubeNoDrive")){
+    } else if(m_chooser.getSelected().equals("OneCubeNoDrive")){
       RobotContainer.m_Arm.setBackBottom();
-    }else if(m_chooser.getSelected().equals("OneCubeDock")){
+    } else if(m_chooser.getSelected().equals("OneCubeDock")){
         RobotContainer.m_Arm.setFrontBottom();
-    }else{
+    } else{
       RobotContainer.m_Arm.setBackBottom();
     }
 
