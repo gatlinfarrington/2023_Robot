@@ -59,12 +59,12 @@ public class Drivetrain extends SubsystemBase {
       halfSpeed = !halfSpeed;
     });
   }
-  public double speedMultiplier = .3;
+  public double speedMultiplier = .5;
   public void arcadeDrive(double moveSpeed, double rotateSpeed) {
-    if(halfSpeed){
-      speedMultiplier = 1; /*.75;*/
+    if(!halfSpeed){
+      speedMultiplier = 0.75;
     }else{
-      speedMultiplier = 0.3; /*1;*/
+      speedMultiplier = 1;
     }
     if(!invertedDrive){ //check for invert
       drive.arcadeDrive(moveSpeed  * speedMultiplier, rotateSpeed * speedMultiplier); //if no move forward (battery side)

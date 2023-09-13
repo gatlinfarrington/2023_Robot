@@ -23,8 +23,8 @@ public class IntakeCommand extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    if(RobotContainer.driverController.getRightTriggerAxis() > 0.6){
-        RobotContainer.m_intake.run_out();
+    if(RobotContainer.coDriverController.getLeftTriggerAxis() > 0.6){
+        RobotContainer.m_intake.stopIntake();
     }else{
         RobotContainer.m_intake.run_in();
     }

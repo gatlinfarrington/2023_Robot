@@ -42,7 +42,7 @@ public class ThreeCubeRight extends SequentialCommandGroup {
       //Drive cube 3
       new ParallelCommandGroup(new DriveDist(0, -PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVERIGHT, PidConstants.ki_DRIVERIGHT, PidConstants.kd_DRIVERIGHT).withTimeout(1.53), new flipArmParallel()),
       //Turn to cube 3
-      new DriveDist(-115, -PidConstants.TURN_SPEEDRIGHT, PidConstants.kp_TURNRIGHT, PidConstants.ki_TURNRIGHT, PidConstants.kd_TURNRIGHT).withTimeout(1.05),
+      new DriveDist(-120, -PidConstants.TURN_SPEEDRIGHT, PidConstants.kp_TURNRIGHT, PidConstants.ki_TURNRIGHT, PidConstants.kd_TURNRIGHT).withTimeout(1.05),
       //Drive past charge station 
       new DriveDist(-100, PidConstants.DRIVE_SPEED, PidConstants.kp_DRIVERIGHT, PidConstants.ki_DRIVERIGHT, PidConstants.kd_DRIVERIGHT).withTimeout(1.05),
       //Drive to grid
